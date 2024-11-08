@@ -16,11 +16,12 @@ struct HatchPetView: View {
         VStack(spacing: 20) {
             if isHatched {
                 
-                Image("slime")
-                    .resizable()
-                    .frame(width: 200, height: 200)
-                    .foregroundColor(.orange)
-                    .padding()
+//                Image("slime")
+//                    .resizable()
+//                    .frame(width: 200, height: 200)
+//                    .foregroundColor(.orange)
+//                    .padding()
+                MonsterView()
                 
                 Text("You hatched a slime!")
                     .font(.title3)

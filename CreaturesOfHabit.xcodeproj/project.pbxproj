@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		35F5297E2CDEBE1F007292A7 /* CreaturesOfHabit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreaturesOfHabit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F26FC0A2CDEC1DF007A5FAD /* CreaturesOfHabit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CreaturesOfHabit.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -42,6 +43,11 @@
 			children = (
 				35F5297E2CDEBE1F007292A7 /* CreaturesOfHabit.app */,
 			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3F26FC0C2CDEC1DF007A5FAD /* Products */ = {
+			isa = PBXGroup;
 			name = Products;
 			sourceTree = "<group>";
 		};
@@ -97,6 +103,12 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 35F5297F2CDEBE1F007292A7 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 3F26FC0C2CDEC1DF007A5FAD /* Products */;
+					ProjectRef = 3F26FC0A2CDEC1DF007A5FAD /* CreaturesOfHabit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				35F5297D2CDEBE1F007292A7 /* CreaturesOfHabit */,
