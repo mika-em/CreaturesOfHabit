@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Foundation
+
 let goals = ["Drink Water", "Walk Dog", "Meditate"]
 
 struct SelectGoalsView: View {
