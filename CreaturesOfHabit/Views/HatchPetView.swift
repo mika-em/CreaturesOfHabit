@@ -7,6 +7,7 @@
 
 
 import SwiftUI
+import Foundation
 
 struct HatchPetView: View {
     @State private var isHatched = false
