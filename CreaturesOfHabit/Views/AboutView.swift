@@ -7,6 +7,7 @@
 
 
 import SwiftUI
+import Foundation
 
 let teamMembers = ["Alfrey", "Ben", "Cheryl", "Conrad", "Mika"]
 

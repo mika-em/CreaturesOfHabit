@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct CreditsView: View {
     let teamMembers = ["Alfrey", "Ben", "Cheryl", "Conrad", "Mika"]
