@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 import Foundation
 
-let goals = ["Drink Water", "Walk Dog", "Meditate"]
+//let goals = ["Drink Water", "Walk Dog", "Meditate"]
 
 struct SelectGoalsView: View {
-    @State private var selectedGoals: Set<String> = []
+    @Query(FetchDescriptor<Goal>()) private var goals: [Goal]
+    @State private var selectedGoals: Set<UUID> = []
+    
     var body: some View {
         VStack(spacing: 20) {
             Spacer()
@@ -21,18 +24,18 @@ struct SelectGoalsView: View {
                 .padding(.top)
             
             ForEach(goals, id: \.self) { goal in
-                Text(goal)
+                Text(goal.name)
                     .font(.body)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(selectedGoals.contains(goal) ? Color.purple : Color(.systemGray5))
-                    .foregroundColor(selectedGoals.contains(goal) ? .white : .primary)
+                    .background(selectedGoals.contains(goal.id) ? Color.purple : Color(.systemGray5))
+                    .foregroundColor(selectedGoals.contains(goal.id) ? .white : .primary)
                     .cornerRadius(25)
                     .onTapGesture {
-                        if selectedGoals.contains(goal) {
-                            selectedGoals.remove(goal)
+                        if selectedGoals.contains(goal.id) {
+                            selectedGoals.remove(goal.id)
                         } else {
-                            selectedGoals.insert(goal)
+                            selectedGoals.insert(goal.id)
                         }
                     }
             }
