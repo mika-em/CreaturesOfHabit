@@ -9,8 +9,13 @@ import SwiftUI
 import Foundation
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+    
     var body: some View {
         LandingPageView()
+            .onAppear {
+                DataSeeder.seedGoals(modelContext: modelContext)
+            }
         .padding()
     }
 }

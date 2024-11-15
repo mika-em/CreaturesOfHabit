@@ -8,6 +8,8 @@
 
 /* Begin PBXFileReference section */
 		35F5297E2CDEBE1F007292A7 /* CreaturesOfHabit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreaturesOfHabit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		948B7FFE2CF12EB30018365E /* CreaturesOfHabit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CreaturesOfHabit.xcodeproj; sourceTree = "<group>"; };
+		948B80662CF78D7F0018365E /* CreaturesOfHabit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CreaturesOfHabit.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -42,6 +44,16 @@
 			children = (
 				35F5297E2CDEBE1F007292A7 /* CreaturesOfHabit.app */,
 			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		948B80002CF12EB30018365E /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		948B80682CF78D7F0018365E /* Products */ = {
+			isa = PBXGroup;
 			name = Products;
 			sourceTree = "<group>";
 		};
@@ -97,6 +109,16 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 35F5297F2CDEBE1F007292A7 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 948B80002CF12EB30018365E /* Products */;
+					ProjectRef = 948B7FFE2CF12EB30018365E /* CreaturesOfHabit.xcodeproj */;
+				},
+				{
+					ProductGroup = 948B80682CF78D7F0018365E /* Products */;
+					ProjectRef = 948B80662CF78D7F0018365E /* CreaturesOfHabit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				35F5297D2CDEBE1F007292A7 /* CreaturesOfHabit */,
@@ -260,7 +282,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.7;
@@ -297,7 +319,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.7;
