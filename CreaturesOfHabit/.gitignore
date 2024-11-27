@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# Xcode
+*.xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+
+# Scheme Management (optional)
+xcshareddata/xcschememanagement.plist
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+
+# CocoaPods (if used)
+Pods/
+*.xcworkspace
