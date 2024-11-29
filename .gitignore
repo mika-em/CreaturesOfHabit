@@ -1,21 +1,31 @@
 # macOS system files
 .DS_Store
 
-# Xcode project files
+# Xcode user-specific files
 *.xcuserstate
 *.xccheckout
 *.xcworkspace/xcuserdata/
+*.xcworkspace/contents.xcworkspacedata
 
-# Build artifacts
-DerivedData/
-build/
-
-# User-specific settings
+# Xcode project files
 *.pbxuser
 *.mode1v3
 *.mode2v3
 *.perspectivev3
 *.xcsettings
+*.xcschememanagement.plist
+
+# Build artifacts
+DerivedData/
+build/
 
 # Asset caches
 *.xcassets/.DS_Store
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Cocoapods
+Pods/
+podfile.lock
