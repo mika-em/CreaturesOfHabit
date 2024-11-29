@@ -1,6 +1,5 @@
-Here’s a simplified version of the README with no contributing or documentation sections:
 
-🐶 Creatures of Habit
+## 🐶 Creatures of Habit
 
 Welcome to Creatures of Habit, a fun and engaging habit-tracking app that helps you build better routines while caring for a virtual pet. Complete your habits, earn rewards, and watch your pet grow as you reach your goals!
 
