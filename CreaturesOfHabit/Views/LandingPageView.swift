@@ -49,6 +49,16 @@ struct LandingPageView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(30)
                         }
+                        Button(action: {
+                            userViewModel.logout(modelContext: modelContext)
+                        }) {
+                            Text("Logout")
+                                .padding()
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+
                     }
                 }
                 .padding()

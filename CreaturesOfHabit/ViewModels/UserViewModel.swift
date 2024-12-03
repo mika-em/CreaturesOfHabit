@@ -34,7 +34,6 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    // TODO: Add a logout button
     func logout(modelContext: ModelContext) {
         guard let user = currentUser else { return }
 
