@@ -16,6 +16,9 @@ class Creature {
     var state: String
     var level: Int
     var currentEXP: Double
+     var typeStateImage: String {
+        return "\(type.lowercased())_\(state.lowercased())"
+    }
     @Relationship var user: User
     
     static let maxLevel = 3
