@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         LandingPageView()
             .onAppear {
-                DataSeeder.seedGoals(modelContext: modelContext)
+                DataSeeder.seedHabits(modelContext: modelContext)
             }
         .padding()
     }

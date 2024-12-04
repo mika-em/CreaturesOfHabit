@@ -13,7 +13,7 @@ struct CreaturesOfHabitApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: [User.self , Creature.self, Goal.self, GoalLog.self])
+                .modelContainer(for: [User.self , Creature.self, Habit.self, HabitLog.self])
         }
     }
 }
