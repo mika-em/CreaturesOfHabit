@@ -7,7 +7,7 @@
 
 import SwiftData
 
-struct DataSeeder {
+enum DataSeeder {
     static func seedHabits(modelContext: ModelContext) {
         do {
             // Check if goals are already loaded
@@ -16,9 +16,9 @@ struct DataSeeder {
                 let defaultGoals = [
                     Habit(name: "Drink Water", units: 0, unitsLower: 0, unitsUpper: 0, ExpRate: 0),
                     Habit(name: "Walk Dog", units: 0, unitsLower: 0, unitsUpper: 0, ExpRate: 0),
-                    Habit(name: "Meditate", units: 0, unitsLower: 0, unitsUpper: 0, ExpRate: 0)
+                    Habit(name: "Meditate", units: 0, unitsLower: 0, unitsUpper: 0, ExpRate: 0),
                 ]
-                
+
                 defaultGoals.forEach { modelContext.insert($0) }
                 try modelContext.save()
                 print("Goals seeded successfully.")
@@ -29,7 +29,7 @@ struct DataSeeder {
             print("Error seeding goals: \(error.localizedDescription)")
         }
     }
-    
+
     // Clear data if needed
     static func clearAllData(modelContext: ModelContext) {
         do {

@@ -17,11 +17,11 @@ class UserViewModel: ObservableObject {
         do {
             // Fetch the user matching the username
             let users = try modelContext.fetch(FetchDescriptor<User>())
-            
+
             if let user = users.first(where: { $0.username == username && $0.password == password }) {
                 user.isLoggedIn = true
                 try modelContext.save()
-                
+
                 currentUser = user
                 isAuthenticated = true
                 errorMessage = nil
@@ -33,7 +33,7 @@ class UserViewModel: ObservableObject {
             errorMessage = "An error occurred: \(error.localizedDescription)"
         }
     }
-    
+
     func logout(modelContext: ModelContext) {
         guard let user = currentUser else { return }
 

@@ -1,7 +1,7 @@
 import Foundation
 
 // Preview data
-struct PreviewData {
+enum PreviewData {
     static let mockUser: User = {
         let user = User(
             username: "JohnDoe",
@@ -14,10 +14,10 @@ struct PreviewData {
             state: "Active",
             user: user
         )
-        user.creature = creature  // Set the creature for the user
+        user.creature = creature // Set the creature for the user
         return user
     }()
-    
+
     static let mockHabit = Habit(
         name: "Morning Jog",
         units: 5,

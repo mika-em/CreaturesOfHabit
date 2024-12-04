@@ -15,7 +15,7 @@ class User {
     var password: String
     var isLoggedIn: Bool = false
     @Relationship var creature: Creature? // remove nullability later
-    
+
     init(username: String, password: String, creature: Creature? = nil) { // remove nil later
         self.username = username
         self.password = password

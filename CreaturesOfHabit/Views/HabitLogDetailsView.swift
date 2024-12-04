@@ -1,5 +1,5 @@
 //
-//  HabitLogDetailView.swift
+//  HabitLogDetailsView.swift
 //  CreaturesOfHabit
 //
 //  Created by Benny Li on 2024-12-03.
@@ -9,13 +9,13 @@ import SwiftUI
 
 struct HabitLogDetailsView: View {
     var habitLog: HabitLog
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Habit Log Details")
                 .font(.title)
                 .bold()
-            
+
             Group {
                 // Text("ID: \(habitLog.id.uuidString)")
                 Text("Habit: \(habitLog.habit.name)")
@@ -26,7 +26,7 @@ struct HabitLogDetailsView: View {
             }
             .font(.body)
             .foregroundColor(.secondary)
-            
+
             Spacer()
         }
         .padding()
@@ -37,8 +37,8 @@ struct HabitLogDetailsView: View {
     }
 }
 
-//struct HabitLogDetailsView_Previews: PreviewProvider {
+// struct HabitLogDetailsView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        HabitLogDetailsView(habitLog: PreviewData.mockHabitLog)
 //    }
-//}
+// }
