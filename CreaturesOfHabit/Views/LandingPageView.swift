@@ -5,9 +5,8 @@
 //  Created by Mika Manaligod on 2024-11-08.
 //
 
-
-import SwiftUI
 import Foundation
+import SwiftUI
 
 struct LandingPageView: View {
     @Environment(\.modelContext) private var modelContext
@@ -58,7 +57,6 @@ struct LandingPageView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(8)
                         }
-
                     }
                 }
                 .padding()
@@ -66,14 +64,13 @@ struct LandingPageView: View {
                 NavigationView {
                     VStack(spacing: 20) {
                         LoginView(userViewModel: userViewModel)
-                        
+
                         NavigationLink(destination: RegisterView(userViewModel: userViewModel)) {
                             Text("Don't have an account? Create One!")
                                 .foregroundColor(.blue)
                         }
                     }
                 }
-                
             }
         }
         .onAppear {
@@ -81,7 +78,6 @@ struct LandingPageView: View {
         }
     }
 }
-
 
 #Preview {
     LandingPageView()

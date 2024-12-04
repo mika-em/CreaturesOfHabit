@@ -5,8 +5,8 @@
 //  Created by Alfrey Chan on 2024-11-22.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct RegisterView: View {
     @Environment(\.modelContext) private var modelContext

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Utils {
+enum Utils {
     static func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium

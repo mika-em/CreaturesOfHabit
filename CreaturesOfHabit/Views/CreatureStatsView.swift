@@ -5,14 +5,14 @@
 //  Created by Mika M on 2024-12-03.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct CreatureStatsView: View {
     @Query(FetchDescriptor<HabitLog>()) private var habitLogs: [HabitLog]
     @Environment(\.modelContext) private var modelContext
     @Query(FetchDescriptor<Creature>()) private var creature: [Creature]
-    
+
     private let placeholderCreature = CreaturePlaceholder(
         type: "Slime",
         name: "Slimey",
@@ -22,13 +22,13 @@ struct CreatureStatsView: View {
         expToNextLevel: 1000.0,
         typeStateImage: "slime_baby"
     )
-    
+
     private let placeholderHabits = [
         HabitPlaceholder(icon: "drop.fill", name: "Drink water", reward: 5, isComplete: true),
         HabitPlaceholder(icon: "toothbrush.fill", name: "Brush teeth", reward: 5, isComplete: false),
-        HabitPlaceholder(icon: "face.smiling", name: "Wash my face", reward: 5, isComplete: true)
+        HabitPlaceholder(icon: "face.smiling", name: "Wash my face", reward: 5, isComplete: true),
     ]
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
@@ -38,72 +38,74 @@ struct CreatureStatsView: View {
                 } else {
                     CreatureHeaderPlaceholder(creature: placeholderCreature)
                 }
-                
-                
+
                 let todayHabits = habitLogs.filter { $0.isSameDateAsToday() }
-                               if todayHabits.isEmpty {
-                                   HabitListPlaceholder(habits: placeholderHabits)
-                               } else {
-                                   HabitList(habitLog: todayHabits, onToggle: completeHabitToggle)
-                               }
+                if todayHabits.isEmpty {
+                    HabitListPlaceholder(habits: placeholderHabits)
+                } else {
+                    HabitList(habitLog: todayHabits, onToggle: completeHabitToggle)
+                }
             }
         }
     }
-    
+
     // MARK: - Toggle Habit Completion
-       private func completeHabitToggle(for log: HabitLog) {
-           if log.unitsCompleted < log.unitsTotal {
-               log.incrementUnitsCompleted()
-           }
-           do {
-               try modelContext.save()
-           } catch {
-               print("Failed to save habit completion: \(error.localizedDescription)")
-           }
-       }
+
+    private func completeHabitToggle(for log: HabitLog) {
+        if log.unitsCompleted < log.unitsTotal {
+            log.incrementUnitsCompleted()
+        }
+        do {
+            try modelContext.save()
+        } catch {
+            print("Failed to save habit completion: \(error.localizedDescription)")
+        }
+    }
 }
 
-
 // MARK: - Creature Header for Creature Stats
+
 struct CreatureHeader: View {
     let creature: Creature
-    
+
     var body: some View {
         VStack(spacing: 10) {
             Text(creature.name)
                 .font(.largeTitle)
-            
+
             Image(creature.typeStateImage)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 250, height: 250)
                 .padding()
-            
+
             VStack(spacing: 0) {
                 StatRow(title: "Type", value: creature.type)
                 StatRow(title: "State", value: creature.state)
                 StatRow(title: "Level", value: "\(creature.level)")
-                StatRow(title: "EXP", value: "\(Int(creature.currentEXP))")           }
+                StatRow(title: "EXP", value: "\(Int(creature.currentEXP))")
+            }
             .padding(10)
         }
     }
 }
 
 // MARK: - Creature Header Placeholder - to be deleted
+
 struct CreatureHeaderPlaceholder: View {
     let creature: CreaturePlaceholder
-    
+
     var body: some View {
         VStack(spacing: 10) {
             Text(creature.name)
                 .font(.largeTitle)
-            
+
             Image(creature.typeStateImage)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 250, height: 250)
                 .padding()
-            
+
             VStack(spacing: 0) {
                 StatRow(title: "Type", value: creature.type)
                 StatRow(title: "State", value: creature.state)
@@ -116,16 +118,17 @@ struct CreatureHeaderPlaceholder: View {
 }
 
 // MARK: - Goal List to show goals for today
+
 struct HabitList: View {
     let habitLog: [HabitLog]
     let onToggle: (HabitLog) -> Void
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Habits for today")
                 .font(.headline)
                 .padding(.leading)
-            
+
             ScrollView {
                 VStack(spacing: 10) {
                     ForEach(habitLog) { habit in
@@ -139,15 +142,16 @@ struct HabitList: View {
 }
 
 // MARK: - Goal List Placeholder
+
 struct HabitListPlaceholder: View {
     let habits: [HabitPlaceholder]
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Goals for today")
                 .font(.headline)
                 .padding(.leading)
-            
+
             ScrollView {
                 VStack(spacing: 10) {
                     ForEach(habits) { habit in
@@ -161,10 +165,11 @@ struct HabitListPlaceholder: View {
 }
 
 // MARK: - Goal Row to display each goal
+
 struct HabitRow: View {
     let habitLog: HabitLog
     let onToggle: (HabitLog) -> Void
-    
+
     var body: some View {
         HStack {
             Image(systemName: "circle")
@@ -176,7 +181,7 @@ struct HabitRow: View {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color(.systemGray5))
                 )
-            
+
             VStack(alignment: .leading) {
                 Text(habitLog.habit.name)
                     .font(.body)
@@ -188,9 +193,9 @@ struct HabitRow: View {
                 }
             }
             .padding(.leading)
-            
+
             Spacer()
-            
+
             Button(action: {
                 onToggle(habitLog)
             }) {
@@ -209,9 +214,10 @@ struct HabitRow: View {
 }
 
 // MARK: - Placeholder for Goal Row
+
 struct HabitRowPlaceholder: View {
     let habit: HabitPlaceholder
-    
+
     var body: some View {
         HStack {
             Image(systemName: habit.icon)
@@ -223,7 +229,7 @@ struct HabitRowPlaceholder: View {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color(.systemGray5))
                 )
-            
+
             VStack(alignment: .leading) {
                 Text(habit.name)
                     .font(.body)
@@ -235,9 +241,9 @@ struct HabitRowPlaceholder: View {
                 }
             }
             .padding(.leading)
-            
+
             Spacer()
-            
+
             Image(systemName: habit.isComplete ? "checkmark.circle.fill" : "circle")
                 .foregroundColor(habit.isComplete ? .green : .gray)
                 .font(.title2)
@@ -252,10 +258,11 @@ struct HabitRowPlaceholder: View {
 }
 
 // MARK: - General Stat Row Component
+
 struct StatRow: View {
     let title: String
     let value: String
-    
+
     var body: some View {
         HStack {
             Text(title)
@@ -272,6 +279,7 @@ struct StatRow: View {
 }
 
 // MARK: - Placeholder Creature and Goal
+
 struct CreaturePlaceholder {
     let type: String
     let name: String
@@ -291,6 +299,7 @@ struct HabitPlaceholder: Identifiable {
 }
 
 // MARK: - Preview
+
 #Preview {
     CreatureStatsView()
 }

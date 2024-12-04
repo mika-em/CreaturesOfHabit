@@ -1,5 +1,5 @@
 //
-//  GoalLog.swift
+//  HabitLog.swift
 //  CreaturesOfHabit
 //
 //  Created by Alfrey Chan on 2024-11-13.
@@ -17,7 +17,7 @@ class HabitLog {
     var date: Date
     @Relationship var user: User
     @Relationship var habit: Habit
-    
+
     init(id: UUID, unitsTotal: Double, unitsCompleted: Double = 0.0, isComplete: Bool = false, date: Date = Date(), user: User, habit: Habit) {
         self.id = id
         self.unitsTotal = unitsTotal
@@ -27,22 +27,22 @@ class HabitLog {
         self.user = user
         self.habit = habit
     }
-    
+
     func incrementUnitsCompleted() {
-        self.unitsCompleted += 1
+        unitsCompleted += 1
         checkCompletion()
     }
-    
+
     private func checkCompletion() {
-        if self.unitsCompleted >= self.unitsTotal {
-            self.unitsCompleted = self.unitsTotal  // Prevent exceeding total?
-            self.isComplete = true
+        if unitsCompleted >= unitsTotal {
+            unitsCompleted = unitsTotal // Prevent exceeding total?
+            isComplete = true
             print("Habit completed!")
         }
     }
-    
+
     func isSameDateAsToday() -> Bool {
         let calendar = Calendar.current
-        return calendar.isDate(self.date, inSameDayAs: Date())
+        return calendar.isDate(date, inSameDayAs: Date())
     }
 }
