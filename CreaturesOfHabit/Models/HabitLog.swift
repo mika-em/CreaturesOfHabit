@@ -9,21 +9,21 @@ import Foundation
 import SwiftData
 
 @Model
-class GoalLog {
+class HabitLog {
     var id: UUID = UUID()
     var unitsTotal: Double
     var unitsCompleted: Double
     var isComplete: Bool
     @Relationship var user: User
-    @Relationship var goal: Goal
+    @Relationship var habit: Habit
     
-    init(id: UUID, unitsTotal: Double, unitsCompleted: Double = 0.0, isComplete: Bool = false, user: User, goal: Goal) {
+    init(id: UUID, unitsTotal: Double, unitsCompleted: Double = 0.0, isComplete: Bool = false, user: User, habit: Habit) {
         self.id = id
         self.unitsTotal = unitsTotal
         self.unitsCompleted = unitsCompleted
         self.isComplete = isComplete
         self.user = user
-        self.goal = goal
+        self.habit = habit
     }
     
     func incrementUnitsCompleted() {
@@ -35,7 +35,7 @@ class GoalLog {
         if self.unitsCompleted >= self.unitsTotal {
             self.unitsCompleted = self.unitsTotal  // Prevent exceeding total?
             self.isComplete = true
-            print("Goal completed!")
+            print("Habit completed!")
         }
     }
 }

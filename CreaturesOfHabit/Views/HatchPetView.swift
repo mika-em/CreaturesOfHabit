@@ -55,7 +55,7 @@ struct HatchPetView: View {
             }
             
                         if isHatched {
-                            NavigationLink(destination: SelectGoalsView()) {
+                            NavigationLink(destination: SelectHabitsView()) {
                                 Text("Continue")
                                 .fontWeight(.bold)
                                     .padding()

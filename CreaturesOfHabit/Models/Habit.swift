@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class Goal {
+class Habit {
     var id: UUID = UUID()
     var name: String
     var units: Double

@@ -11,9 +11,9 @@ import Foundation
 
 //let goals = ["Drink Water", "Walk Dog", "Meditate"]
 
-struct SelectGoalsView: View {
-    @Query(FetchDescriptor<Goal>()) private var goals: [Goal]
-    @State private var selectedGoals: Set<UUID> = []
+struct SelectHabitsView: View {
+    @Query(FetchDescriptor<Habit>()) private var habits: [Habit]
+    @State private var selectedHabits: Set<UUID> = []
     
     var body: some View {
         VStack(spacing: 20) {
@@ -23,19 +23,19 @@ struct SelectGoalsView: View {
                 .fontWeight(.bold)
                 .padding(.top)
             
-            ForEach(goals, id: \.self) { goal in
-                Text(goal.name)
+            ForEach(habits, id: \.self) { habit in
+                Text(habit.name)
                     .font(.body)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(selectedGoals.contains(goal.id) ? Color.purple : Color(.systemGray5))
-                    .foregroundColor(selectedGoals.contains(goal.id) ? .white : .primary)
+                    .background(selectedHabits.contains(habit.id) ? Color.purple : Color(.systemGray5))
+                    .foregroundColor(selectedHabits.contains(habit.id) ? .white : .primary)
                     .cornerRadius(25)
                     .onTapGesture {
-                        if selectedGoals.contains(goal.id) {
-                            selectedGoals.remove(goal.id)
+                        if selectedHabits.contains(habit.id) {
+                            selectedHabits.remove(habit.id)
                         } else {
-                            selectedGoals.insert(goal.id)
+                            selectedHabits.insert(habit.id)
                         }
                     }
             }
@@ -48,5 +48,5 @@ struct SelectGoalsView: View {
 }
 
 #Preview {
-    SelectGoalsView()
+    SelectHabitsView()
 }
