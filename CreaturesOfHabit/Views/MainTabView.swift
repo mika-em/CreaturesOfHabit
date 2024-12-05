@@ -29,13 +29,16 @@ struct MainTabView: View {
                         }
                 }
                 .environment(\.modelContext, modelContext)
-                .environmentObject(userViewModel)
+                .environmentObject(userViewModel) // Redundant but safe
             } else {
                 // Redirect to LandingPageView if the user is logged out
                 LandingPageView()
                     .environment(\.modelContext, modelContext)
                     .environmentObject(userViewModel)
             }
+        }
+        .onAppear {
+            print("MainTabView loaded with userViewModel: \(userViewModel)")
         }
     }
 }

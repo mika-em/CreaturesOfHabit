@@ -18,121 +18,119 @@ struct LandingPageView: View {
         Group {
             if userViewModel.isAuthenticated {
                 if let creature = userViewModel.currentUser?.creature {
-                    NavigationView {
-                        VStack(spacing: 20) {
-                            Image(systemName: "heart.fill")
-                                .resizable()
-                                .foregroundColor(Color.purple)
-                                .frame(width: 120, height: 120)
-                            
-                            Text("Welcome to \nCreatures of Habit")
-                                .font(.largeTitle)
-                                .fontWeight(.medium)
-                                .multilineTextAlignment(.center)
+                    // User has a creature
+                    VStack(spacing: 20) {
+                        Image(systemName: "heart.fill")
+                            .resizable()
+                            .foregroundColor(Color.purple)
+                            .frame(width: 120, height: 120)
+                        
+                        Text("Welcome to \nCreatures of Habit")
+                            .font(.largeTitle)
+                            .fontWeight(.medium)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                        
+                        Text("Build healthy habits and watch your creature grow!")
+                            .multilineTextAlignment(.center)
+                            .font(.title3)
+                            .padding()
+                        
+                        NavigationLink(
+                            destination: CreatureStatsView(viewModel: CreatureStatsViewModel(creature: creature, user: userViewModel.currentUser!))
+                        ) {
+                            Text("Check on your pet")
                                 .padding()
-                            
-                            Text("Build healthy habits and watch your creature grow!")
-                                .multilineTextAlignment(.center)
-                                .font(.title3)
+                                .background(Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(30)
+                        }
+                        
+                        NavigationLink(destination: AboutView()) {
+                            Text("Learn More")
                                 .padding()
-                            
-                            NavigationLink(destination: CreatureStatsView(viewModel: CreatureStatsViewModel(creature: creature, user: userViewModel.currentUser!))) {
-                                Text("Check on your pet")
-                                    .padding()
-                                    .background(Color.gray)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(30)
+                                .background(Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(30)
+                        }
+                        
+                        Button(action: {
+                            userViewModel.logout(modelContext: modelContext)
+                        }) {
+                            Text("Logout")
+                                .padding()
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        
+                        Button(action: {
+                            if let creature = userViewModel.currentUser?.creature {
+                                userViewModel.deleteUserCreature(modelContext: modelContext, creature: creature)
                             }
-                            
-                            NavigationLink(destination: AboutView()) {
-                                Text("Learn More")
-                                    .padding()
-                                    .background(Color.gray)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(30)
-                            }
-                            Button(action: {
-                                userViewModel.logout(modelContext: modelContext)
-                            }) {
-                                Text("Logout")
-                                    .padding()
-                                    .background(Color.red)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(8)
-                            }
-                            
-                            Button(action: {
-                                if let creature = userViewModel.currentUser?.creature {
-                                    userViewModel.deleteUserCreature(modelContext: modelContext, creature: creature)
-                                }
-                            }) {
-                                Text("Wipe Creature")
-                                    .padding()
-                                    .background(Color.red)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(8)
-                            }
-                            
+                        }) {
+                            Text("Wipe Creature")
+                                .padding()
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
                         }
                     }
-                    .padding()
                 } else {
-                    // If the user does not have a creature, show the hatch page
-                    NavigationView {
-                        VStack(spacing: 20) {
-                            Image(systemName: "heart.fill")
-                                .resizable()
-                                .foregroundColor(Color.purple)
-                                .frame(width: 120, height: 120)
-                            
-                            Text("Welcome to \nCreatures of Habit")
-                                .font(.largeTitle)
-                                .fontWeight(.medium)
-                                .multilineTextAlignment(.center)
+                    // User does not have a creature
+                    VStack(spacing: 20) {
+                        Image(systemName: "heart.fill")
+                            .resizable()
+                            .foregroundColor(Color.purple)
+                            .frame(width: 120, height: 120)
+                        
+                        Text("Welcome to \nCreatures of Habit")
+                            .font(.largeTitle)
+                            .fontWeight(.medium)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                        
+                        Text("Build healthy habits and watch your creature grow!")
+                            .multilineTextAlignment(.center)
+                            .font(.title3)
+                            .padding()
+                        
+                        NavigationLink(
+                            destination: SelectCreatureView(userViewModel: userViewModel)
+                        ) {
+                            Text("Start your journey")
                                 .padding()
-                            
-                            Text("Build healthy habits and watch your creature grow!")
-                                .multilineTextAlignment(.center)
-                                .font(.title3)
+                                .background(Color.purple)
+                                .foregroundColor(.white)
+                                .cornerRadius(30)
+                        }
+                        
+                        NavigationLink(destination: AboutView()) {
+                            Text("Learn More")
                                 .padding()
-                            
-                            
-                            NavigationLink(destination: SelectCreatureView(userViewModel: userViewModel)) {
-                                Text("Start your journey")
-                                    .padding()
-                                    .background(Color.purple)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(30)
-                            }
-                            
-                            NavigationLink(destination: AboutView()) {
-                                Text("Learn More")
-                                    .padding()
-                                    .background(Color.gray)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(30)
-                            }
-                            Button(action: {
-                                userViewModel.logout(modelContext: modelContext)
-                            }) {
-                                Text("Logout")
-                                    .padding()
-                                    .background(Color.red)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(8)
-                            }
+                                .background(Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(30)
+                        }
+                        
+                        Button(action: {
+                            userViewModel.logout(modelContext: modelContext)
+                        }) {
+                            Text("Logout")
+                                .padding()
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
                         }
                     }
-                    .padding()
                 }
             } else {
-                NavigationView {
-                    VStack(spacing: 20) {
-                        LoginView(userViewModel: userViewModel, onLogin: onLogin)
-                        NavigationLink(destination: RegisterView(userViewModel: userViewModel)) {
-                            Text("Don't have an account? Create One!")
-                                .foregroundColor(.blue)
-                        }
+                // Login/Register flow
+                VStack(spacing: 20) {
+                    LoginView(userViewModel: userViewModel, onLogin: onLogin)
+                    NavigationLink(destination: RegisterView(userViewModel: userViewModel)) {
+                        Text("Don't have an account? Create One!")
+                            .foregroundColor(.blue)
                     }
                 }
             }

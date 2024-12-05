@@ -61,16 +61,32 @@ struct HatchPetView: View {
                 }
             }
         }
+        .onAppear {
+            // Add this debugging to confirm userViewModel exists in HatchPetView
+            print("HatchPetView userViewModel before root switch: \(userViewModel)")
+        }
     }
     
     private func setMainTabViewAsRoot(with userViewModel: UserViewModel) {
-        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = scene.windows.first {
-            let rootView = MainTabView()
-                .environmentObject(userViewModel)  // Pass the UserViewModel
-            
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = scene.windows.first else {
+            print("Unable to access UIWindow")
+            return
+        }
+        
+        // Ensure userViewModel is valid
+        guard userViewModel.currentUser != nil else {
+            print("UserViewModel missing currentUser")
+            return
+        }
+        
+        let rootView = MainTabView()
+            .environmentObject(userViewModel)
+        
+        DispatchQueue.main.async {
             window.rootViewController = UIHostingController(rootView: rootView)
             window.makeKeyAndVisible()
+            print("RootViewController set with userViewModel: \(userViewModel)")
         }
     }
 }
