@@ -12,6 +12,7 @@ struct CreatureStatsView: View {
     @Query(FetchDescriptor<HabitLog>()) private var habitLogs: [HabitLog]
     @Query(FetchDescriptor<Creature>()) private var creature: [Creature]
     @Environment(\.modelContext) private var modelContext
+    @ObservedObject var viewModel: CreatureStatsViewModel
     
     private let placeholderCreature = CreaturePlaceholder(
         type: "Slime",
@@ -33,11 +34,10 @@ struct CreatureStatsView: View {
         ScrollView {
             VStack(spacing: 10) {
                 if let creature = creature.first {
-                    CreatureHeader(creature: creature)
+                    CreatureHeader(creature: viewModel.creature)
                 } else {
                     CreatureHeaderPlaceholder(creature: placeholderCreature)
                 }
-                
                 let todayHabits = habitLogs.filter { $0.isSameDateAsToday() }
                 if todayHabits.isEmpty {
                     HabitListPlaceholder(habits: placeholderHabits)
@@ -72,16 +72,10 @@ struct CreatureHeader: View {
         VStack(spacing: 10) {
             Text(creature.name)
                 .font(.largeTitle)
-            
-            Image(creature.typeStateImage)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 250, height: 250)
-                .padding()
-            
+            AnimatedImageView(firstImageName: "\(creature.typeStateImage)", secondImageName:"\(creature.typeStateImage)2", animationDuration: 0.3)
             VStack(spacing: 0) {
-                StatRow(title: "Type", value: creature.type)
-                StatRow(title: "State", value: creature.state)
+                StatRow(title: "Type", value: creature.type.capitalized)
+                StatRow(title: "State", value: creature.state.capitalized)
                 StatRow(title: "Level", value: "\(creature.level)")
                 StatRow(title: "EXP", value: "\(Int(creature.currentEXP))")
             }
@@ -300,6 +294,6 @@ struct HabitPlaceholder: Identifiable {
 
 // MARK: - Preview
 
-//#Preview {
-//    CreatureStatsView()
-//}
+#Preview {
+    CreatureStatsView(viewModel : CreatureStatsViewModel(creature: PreviewData.mockUser.creature!, user: PreviewData.mockUser) )
+}

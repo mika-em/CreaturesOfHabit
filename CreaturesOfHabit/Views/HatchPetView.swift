@@ -61,7 +61,6 @@ struct HatchPetView: View {
                 }
             }
         }
-        
     }
     
     private func setMainTabViewAsRoot(with userViewModel: UserViewModel) {
