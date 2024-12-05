@@ -15,12 +15,16 @@ struct ContentView: View {
     var body: some View {
         Group {
             if userViewModel.isAuthenticated {
-                MainTabView()
-                    .environmentObject(userViewModel)
+                NavigationStack {
+                    MainTabView()
+                        .environmentObject(userViewModel)
+                }
             } else {
-                LandingPageView()
-                    .environment(\.modelContext, modelContext)
-                    .environmentObject(userViewModel)
+                NavigationStack {
+                    LandingPageView()
+                        .environment(\.modelContext, modelContext)
+                        .environmentObject(userViewModel)
+                }
             }
         }
         .onAppear {
