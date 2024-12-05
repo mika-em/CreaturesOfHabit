@@ -14,7 +14,7 @@ struct SelectCreatureView: View {
     @State private var navigateToHatchPetView: Bool = false  // State to trigger navigation
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Text("Select your creature")
                     .font(.largeTitle)
@@ -33,7 +33,6 @@ struct SelectCreatureView: View {
                         Text(creature.type.capitalized)
                             .font(.title2)
                             .fontWeight(.medium)
-                        
                         
                         Spacer()
                         
@@ -63,17 +62,10 @@ struct SelectCreatureView: View {
                     }
                     .padding()
                 }
-                
-                
-                NavigationLink(
-                    destination: HatchPetView(),
-                    isActive: $navigateToHatchPetView
-                ) {
-                    EmptyView()
-                }
-                .hidden()
             }
-            
+            .navigationDestination(isPresented: $navigateToHatchPetView) {
+                HatchPetView()
+            }
         }
     }
     
@@ -98,6 +90,8 @@ struct SelectCreatureView: View {
         }
     }
 }
+
+
 
 
 

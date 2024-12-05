@@ -23,7 +23,6 @@ struct HatchPetView: View {
                 Text("You hatched a slime!")
                     .font(.title3)
                     .fontWeight(.bold)
-//                    .padding(.top, 1)
             } else {
                 Spacer()
                 Image("egg")
@@ -44,8 +43,8 @@ struct HatchPetView: View {
                         .background(Color.yellow)
                         .foregroundColor(.white)
                         .cornerRadius(30)
-
-                }.padding(.bottom, 100)
+                }
+                .padding(.bottom, 100)
             }
 
             if isHatched {
@@ -59,7 +58,6 @@ struct HatchPetView: View {
                 }
             }
         }
-        //        .navigationTitle("Hatch Your Pet")
     }
 }
 

@@ -33,7 +33,8 @@ struct LandingPageView: View {
                                 .multilineTextAlignment(.center)
                                 .font(.title3)
                                 .padding()
-                            NavigationLink(destination: CreatureStatsView()) {
+                            
+                            NavigationLink(destination: CreatureStatsView(viewModel: CreatureStatsViewModel(creature: creature, user: userViewModel.currentUser!))) {
                                 Text("Check on your pet")
                                     .padding()
                                     .background(Color.gray)
@@ -52,6 +53,18 @@ struct LandingPageView: View {
                                 userViewModel.logout(modelContext: modelContext)
                             }) {
                                 Text("Logout")
+                                    .padding()
+                                    .background(Color.red)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(8)
+                            }
+                            
+                            Button(action: {
+                                if let creature = userViewModel.currentUser?.creature {
+                                    userViewModel.deleteUserCreature(modelContext: modelContext, creature: creature)
+                                }
+                            }) {
+                                Text("Wipe Creature")
                                     .padding()
                                     .background(Color.red)
                                     .foregroundColor(.white)
@@ -80,7 +93,7 @@ struct LandingPageView: View {
                                 .font(.title3)
                                 .padding()
                             
-                   
+                            
                             NavigationLink(destination: SelectCreatureView(userViewModel: userViewModel)) {
                                 Text("Start your journey")
                                     .padding()

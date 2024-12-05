@@ -11,8 +11,8 @@ import SwiftUI
 struct CreatureStatsView: View {
     @Query(FetchDescriptor<HabitLog>()) private var habitLogs: [HabitLog]
     @Environment(\.modelContext) private var modelContext
-    @Query(FetchDescriptor<Creature>()) private var creature: [Creature]
-
+    @ObservedObject var viewModel: CreatureStatsViewModel
+    
     private let placeholderCreature = CreaturePlaceholder(
         type: "Slime",
         name: "Slimey",
@@ -33,11 +33,7 @@ struct CreatureStatsView: View {
         ScrollView {
             VStack(spacing: 10) {
                 // Creature Header Section
-                if let creature = creature.first {
-                    CreatureHeader(creature: creature)
-                } else {
-                    CreatureHeaderPlaceholder(creature: placeholderCreature)
-                }
+                CreatureHeader(creature: viewModel.creature)
 
                 let todayHabits = habitLogs.filter { $0.isSameDateAsToday() }
                 if todayHabits.isEmpty {
@@ -80,8 +76,8 @@ struct CreatureHeader: View {
                 .padding()
 
             VStack(spacing: 0) {
-                StatRow(title: "Type", value: creature.type)
-                StatRow(title: "State", value: creature.state)
+                StatRow(title: "Type", value: creature.type.capitalized)
+                StatRow(title: "State", value: creature.state.capitalized)
                 StatRow(title: "Level", value: "\(creature.level)")
                 StatRow(title: "EXP", value: "\(Int(creature.currentEXP))")
             }
@@ -301,5 +297,5 @@ struct HabitPlaceholder: Identifiable {
 // MARK: - Preview
 
 #Preview {
-    CreatureStatsView()
+    CreatureStatsView(viewModel : CreatureStatsViewModel(creature: PreviewData.mockUser.creature!, user: PreviewData.mockUser) )
 }
