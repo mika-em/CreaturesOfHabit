@@ -13,6 +13,7 @@ struct SelectHabitsView: View {
     @Query(FetchDescriptor<Habit>()) private var habits: [Habit]
     @Query(FetchDescriptor<User>()) private var users: [User]
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     @State private var selectedHabitID: UUID? = nil  // Track the selected habit
     
     var body: some View {
@@ -24,7 +25,11 @@ struct SelectHabitsView: View {
                 .padding(.top)
             
             ForEach(habits, id: \.self) { habit in
-                NavigationLink(destination: CreatureStatsView()) {
+                Button(action: {
+                    selectedHabitID = habit.id  // Update the selected habit
+                    addHabitToGoals(habit)      // Add the habit to goals
+                    dismiss()                  // Navigate back to MainTabView
+                }) {
                     Text(habit.name)
                         .font(.body)
                         .padding()
@@ -33,10 +38,6 @@ struct SelectHabitsView: View {
                         .foregroundColor(selectedHabitID == habit.id ? .white : .primary)
                         .cornerRadius(10)
                 }
-                .simultaneousGesture(TapGesture().onEnded {
-                    selectedHabitID = habit.id  // Update the selected habit
-                    addHabitToGoals(habit)      // Add the habit to goals
-                })
             }
             
             Spacer()

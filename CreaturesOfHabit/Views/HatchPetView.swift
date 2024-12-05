@@ -10,7 +10,8 @@ import SwiftUI
 
 struct HatchPetView: View {
     @State private var isHatched = false
-
+    @EnvironmentObject var userViewModel: UserViewModel  // Access the environment object
+    
     var body: some View {
         VStack(spacing: 20) {
             if isHatched {
@@ -19,18 +20,17 @@ struct HatchPetView: View {
                     .frame(width: 200, height: 200)
                     .foregroundColor(.orange)
                     .padding()
-
+                
                 Text("You hatched a slime!")
                     .font(.title3)
                     .fontWeight(.bold)
-//                    .padding(.top, 1)
             } else {
                 Spacer()
                 Image("egg")
                     .resizable()
                     .frame(width: 200, height: 200)
                     .padding(.top, 70)
-
+                
                 Spacer()
                 Button(action: {
                     withAnimation {
@@ -44,12 +44,14 @@ struct HatchPetView: View {
                         .background(Color.yellow)
                         .foregroundColor(.white)
                         .cornerRadius(30)
-
-                }.padding(.bottom, 100)
+                }
+                .padding(.bottom, 100)
             }
-
+            
             if isHatched {
-                NavigationLink(destination: SelectHabitsView()) {
+                Button(action: {
+                    setMainTabViewAsRoot(with: userViewModel)
+                }) {
                     Text("Continue")
                         .fontWeight(.bold)
                         .padding()
@@ -59,7 +61,18 @@ struct HatchPetView: View {
                 }
             }
         }
-        //        .navigationTitle("Hatch Your Pet")
+        
+    }
+    
+    private func setMainTabViewAsRoot(with userViewModel: UserViewModel) {
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = scene.windows.first {
+            let rootView = MainTabView()
+                .environmentObject(userViewModel)  // Pass the UserViewModel
+            
+            window.rootViewController = UIHostingController(rootView: rootView)
+            window.makeKeyAndVisible()
+        }
     }
 }
 
