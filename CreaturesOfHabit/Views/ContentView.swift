@@ -15,9 +15,19 @@ struct ContentView: View {
     var body: some View {
         Group {
             if userViewModel.isAuthenticated {
-                CreatureStatsView()
-                    .environment(\.modelContext, modelContext)
-                    .environmentObject(userViewModel) // Pass the UserViewModel
+                TabView {
+                    CreatureStatsView()
+                        .tabItem {
+                            Label("Creature", systemImage: "pawprint")
+                        }
+                    
+                    ProfileView()
+                        .tabItem {
+                            Label("Profile", systemImage: "person.crop.circle")
+                        }
+                }
+                .environment(\.modelContext, modelContext)
+                .environmentObject(userViewModel) // Pass the UserViewModel
             } else {
                 LandingPageView()
                     .environment(\.modelContext, modelContext)
