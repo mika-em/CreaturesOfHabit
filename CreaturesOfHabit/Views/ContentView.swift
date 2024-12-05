@@ -10,13 +10,22 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-
+    @StateObject private var userViewModel = UserViewModel()
+    
     var body: some View {
-        LandingPageView()
-            .onAppear {
-                DataSeeder.seedHabits(modelContext: modelContext)
+        Group {
+            if userViewModel.isAuthenticated {
+                MainTabView()
+                    .environmentObject(userViewModel)
+            } else {
+                LandingPageView()
+                    .environment(\.modelContext, modelContext)
+                    .environmentObject(userViewModel)
             }
-            .padding()
+        }
+        .onAppear {
+            userViewModel.fetchLoggedInUser(modelContext: modelContext)
+        }
     }
 }
 

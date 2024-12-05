@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum Utils {
     static func formattedDate(_ date: Date) -> String {
