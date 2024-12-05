@@ -69,11 +69,7 @@ struct CreatureHeader: View {
             Text(creature.name)
                 .font(.largeTitle)
 
-            Image(creature.typeStateImage)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 250, height: 250)
-                .padding()
+            AnimatedImageView(firstImageName: "\(creature.typeStateImage)", secondImageName:"\(creature.typeStateImage)2", animationDuration: 0.3)
 
             VStack(spacing: 0) {
                 StatRow(title: "Type", value: creature.type.capitalized)
