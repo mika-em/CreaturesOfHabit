@@ -13,7 +13,8 @@ struct LoginView: View {
     @ObservedObject var userViewModel: UserViewModel
     @State private var username = ""
     @State private var password = ""
-
+    var onLogin: (() -> Void)? // Add the onLogin callback
+    
     var body: some View {
         VStack(spacing: 20) {
             Text("Login")
@@ -34,6 +35,9 @@ struct LoginView: View {
 
             Button(action: {
                 userViewModel.login(username: username, password: password, modelContext: modelContext)
+                if userViewModel.isAuthenticated { // Trigger the onLogin callback if authenticated
+                    onLogin?()
+                }
             }) {
                 Text("Login")
                     .padding()

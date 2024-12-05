@@ -11,7 +11,9 @@ import SwiftUI
 struct LandingPageView: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject private var userViewModel = UserViewModel()
-
+    
+    var onLogin: (() -> Void)? // Optional callback for login success
+    
     var body: some View {
         Group {
             if userViewModel.isAuthenticated {
@@ -21,18 +23,18 @@ struct LandingPageView: View {
                             .resizable()
                             .foregroundColor(Color.purple)
                             .frame(width: 120, height: 120)
-
+                        
                         Text("Welcome to \nCreatures of Habit")
                             .font(.largeTitle)
                             .fontWeight(.medium)
                             .multilineTextAlignment(.center)
                             .padding()
-
+                        
                         Text("Build healthy habits and watch your creature grow!")
                             .multilineTextAlignment(.center)
                             .font(.title3)
                             .padding()
-
+                        
                         NavigationLink(destination: HatchPetView()) {
                             Text("Start your journey")
                                 .padding()
@@ -40,7 +42,7 @@ struct LandingPageView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(30)
                         }
-
+                        
                         NavigationLink(destination: AboutView()) {
                             Text("Learn More")
                                 .padding()
@@ -50,6 +52,7 @@ struct LandingPageView: View {
                         }
                         Button(action: {
                             userViewModel.logout(modelContext: modelContext)
+                            onLogin?() // Notify logout to reset root
                         }) {
                             Text("Logout")
                                 .padding()
@@ -63,8 +66,8 @@ struct LandingPageView: View {
             } else {
                 NavigationView {
                     VStack(spacing: 20) {
-                        LoginView(userViewModel: userViewModel)
-
+                        LoginView(userViewModel: userViewModel, onLogin: onLogin)
+                        
                         NavigationLink(destination: RegisterView(userViewModel: userViewModel)) {
                             Text("Don't have an account? Create One!")
                                 .foregroundColor(.blue)
@@ -75,6 +78,9 @@ struct LandingPageView: View {
         }
         .onAppear {
             userViewModel.fetchLoggedInUser(modelContext: modelContext)
+            if userViewModel.isAuthenticated {
+                onLogin?() // Automatically move to root if logged in
+            }
         }
     }
 }

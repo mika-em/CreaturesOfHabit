@@ -46,6 +46,9 @@ struct CreatureStatsView: View {
                 }
             }
         }
+//        .onAppear {
+//            Utils.replaceRootView(with: self)
+//        }
     }
     
     private func completeHabitToggle(for log: HabitLog) {

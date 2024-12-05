@@ -12,50 +12,42 @@ import SwiftUI
 struct SelectHabitsView: View {
     @Query(FetchDescriptor<Habit>()) private var habits: [Habit]
     @Query(FetchDescriptor<User>()) private var users: [User]
-    @State private var navigationPath = NavigationPath()
     @Environment(\.modelContext) private var modelContext
+    @State private var selectedHabitID: UUID? = nil  // Track the selected habit
     
     var body: some View {
-        NavigationStack(path: $navigationPath) {
-            VStack(spacing: 20) {
-                Spacer()
-                Text("Pick a Habit")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.top)
-                
-                ForEach(habits, id: \.self) { habit in
-                    Button(action: {
-                        addHabitToGoals(habit)
-                        Utils.resetStackAndNavigate(
-                            to: "CreatureStatsView",
-                            using: &navigationPath
-                        )
-                    }) {
-                        Text(habit.name)
-                            .font(.body)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color(.systemGray5))
-                            .cornerRadius(10)
-                    }
+        VStack(spacing: 20) {
+            Spacer()
+            Text("Pick a Habit")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.top)
+            
+            ForEach(habits, id: \.self) { habit in
+                NavigationLink(destination: CreatureStatsView()) {
+                    Text(habit.name)
+                        .font(.body)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(selectedHabitID == habit.id ? Color.purple : Color(.systemGray5))
+                        .foregroundColor(selectedHabitID == habit.id ? .white : .primary)
+                        .cornerRadius(10)
                 }
-                Spacer()
+                .simultaneousGesture(TapGesture().onEnded {
+                    selectedHabitID = habit.id  // Update the selected habit
+                    addHabitToGoals(habit)      // Add the habit to goals
+                })
             }
-            .padding()
-            .navigationDestination(for: String.self) { destination in
-                if destination == "CreatureStatsView" {
-                    CreatureStatsView()
-                        .navigationBarBackButtonHidden(true)
-                }
-            }
+            
+            Spacer()
         }
+        .padding()
     }
     
     private func addHabitToGoals(_ habit: Habit) {
         guard let currentUser = users.first(where: { $0.isLoggedIn }) else { return }
         
-        let isAlreadyAddedToday = habitLogs(for: currentUser).contains {
+        let isAlreadyAddedToday = getUserHabitLogs(for: currentUser).contains {
             $0.habit.id == habit.id && $0.isSameDateAsToday()
         }
         guard !isAlreadyAddedToday else { return }
@@ -74,7 +66,7 @@ struct SelectHabitsView: View {
         do { try modelContext.save() } catch { print("Error saving habit log: \(error)") }
     }
     
-    private func habitLogs(for user: User) -> [HabitLog] {
+    private func getUserHabitLogs(for user: User) -> [HabitLog] {
         return (try? modelContext.fetch(FetchDescriptor<HabitLog>()).filter {
             $0.user.id == user.id
         }) ?? []
