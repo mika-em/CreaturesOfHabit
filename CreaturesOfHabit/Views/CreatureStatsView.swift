@@ -33,28 +33,29 @@ struct CreatureStatsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
-                if let creature = creature.first {
+                if creature.first != nil {
                     CreatureHeader(viewModel: viewModel)
                 } else {
                     CreatureHeaderPlaceholder(creature: placeholderCreature)
                 }
-//                let todayHabits = habitLogs.filter { $0.isSameDateAsToday() }
-//                if todayHabits.isEmpty {
-//                    HabitListPlaceholder(habits: placeholderHabits)
-//                } else {
-//                    HabitList(habitLog: todayHabits, onToggle: completeHabitToggle)
-//                }
+                //                let todayHabits = habitLogs.filter { $0.isSameDateAsToday() }
+                //                if todayHabits.isEmpty {
+                //                    HabitListPlaceholder(habits: placeholderHabits)
+                //                } else {
+                //                    HabitList(habitLog: todayHabits, onToggle: completeHabitToggle)
+                //                }
                 HabitList(habitLog: habitLogs, onToggle: completeHabitToggle, clearHabits: clearHabitLogData, viewModel : viewModel)
             }
         }
-//        .onAppear {
-//            Utils.replaceRootView(with: self)
-//        }
+        //        .onAppear {
+        //            Utils.replaceRootView(with: self)
+        //        }
     }
     
     private func completeHabitToggle(for log: HabitLog) {
         if log.unitsCompleted < log.unitsTotal {
             log.incrementUnitsCompleted()
+            viewModel.creature.gainEXP(experience: log.exp)
         }
         do {
             try modelContext.save()
@@ -96,7 +97,7 @@ struct CreatureHeader: View {
             }
             .padding(10)
             
-           
+            
         }
     }
 }
@@ -238,7 +239,6 @@ struct HabitRow: View {
             
             Button(action: {
                 onToggle(habitLog)
-                viewModel.creature.gainEXP(experience: habitLog.exp)
             }) {
                 Image(systemName: habitLog.isComplete ? "checkmark.circle.fill" : "circle")
                     .foregroundColor(habitLog.isComplete ? .green : .gray)

@@ -17,9 +17,11 @@ enum Utils {
     }
     
     static func randomExp(unitsLower: Double, unitsUpper: Double) -> Double {
+        print("unitsLower: \(unitsLower), unitsUpper: \(unitsUpper)\n")
         let randomValue = Double.random(in: unitsLower...unitsUpper)
+        print("randomValue: \(randomValue)")
 
-        let exp = (randomValue / 5).rounded(.down) * 5
+        let exp = (randomValue / 5).rounded(.up) * 5
         
         return exp
     }

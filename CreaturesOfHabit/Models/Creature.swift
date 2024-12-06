@@ -22,7 +22,7 @@ class Creature {
     
     @Relationship var user: User
     
-    static let maxLevel = 3
+    static let maxLevel = 2
     static let xpPerLevel = 1000.0
     static let baseLevel = 1
     static let baseEXP = 0.0
@@ -37,19 +37,24 @@ class Creature {
     }
     
     func gainEXP(experience: Double) -> Bool {
-        guard level <= Creature.maxLevel else {
-            print("\(name) has reached the max level.")
+        guard currentEXP < Creature.xpPerLevel * 2 else {
+            print("\(name) has reached the max experience before level 3.")
             return false
         }
         
         currentEXP += experience
-        while currentEXP >= expUntilNextLevel(), level < Creature.maxLevel {
+        
+        if currentEXP >= Creature.xpPerLevel * 2 {
+            currentEXP = Creature.xpPerLevel * 2 - 1 // Ensure it stops at 1999, just before level 3
+        }
+        
+        while currentEXP >= expUntilNextLevel() && level < Creature.maxLevel {
             levelUp()
         }
+        
         updateState()
         return true
     }
-    
     
     
     private func levelUp() {
@@ -77,13 +82,12 @@ class Creature {
             return false
         }
         
-        
+        currentEXP -= experience
         updateState()
         return true
     }
     
     private func expUntilNextLevel() -> Double {
-        // Each level 1000 points required
         // Level 1 -> 0 (base level), Level 2 -> 1000, Level 3 -> 2000
         Double(level) * Creature.xpPerLevel
     }
@@ -101,3 +105,4 @@ class Creature {
         }
     }
 }
+

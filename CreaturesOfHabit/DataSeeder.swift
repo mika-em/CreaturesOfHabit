@@ -22,7 +22,7 @@ enum DataSeeder {
                     Habit(name: "Drink Water", units: 0, unitsLower: ultraLowRate, unitsUpper: lowRate, ExpRate: baseRate),
                     Habit(name: "Walk Dog", units: 0, unitsLower: lowRate, unitsUpper: medRate, ExpRate: baseRate),
                     Habit(name: "Meditate", units: 0, unitsLower: medRate, unitsUpper: highRate, ExpRate: baseRate),
-                    Habit(name: "Routine House Cleaning", units: medRate, unitsLower: highRate, unitsUpper: 0, ExpRate: baseRate),
+                    Habit(name: "Routine House Cleaning", units: 0, unitsLower: medRate, unitsUpper: highRate, ExpRate: baseRate),
                     Habit(name: "Exercise/Workout", units: 0, unitsLower: medRate, unitsUpper: highRate, ExpRate: baseRate),
                     Habit(name: "Stretch", units: 0, unitsLower: medRate, unitsUpper:highRate, ExpRate: baseRate),
                     Habit(name: "Study", units: 0, unitsLower: medRate, unitsUpper: highRate, ExpRate: baseRate),
@@ -34,7 +34,7 @@ enum DataSeeder {
                     Habit(name: "Moisturize Hands", units: 0, unitsLower: ultraLowRate, unitsUpper: lowRate, ExpRate: baseRate),
                     Habit(name: "Do Dishes", units: 0, unitsLower: lowRate, unitsUpper: medRate, ExpRate: baseRate),
                 ]
-
+                
                 defaultGoals.forEach { modelContext.insert($0) }
                 try modelContext.save()
                 print("Goals seeded successfully.")
@@ -45,7 +45,7 @@ enum DataSeeder {
             print("Error seeding goals: \(error.localizedDescription)")
         }
     }
-
+    
     // Clear data if needed
     static func clearAllData(modelContext: ModelContext) {
         do {
