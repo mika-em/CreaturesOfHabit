@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.theme) private var theme
     @StateObject private var userViewModel = UserViewModel()
     @StateObject private var navigationManager = NavigationManager() // Add NavigationManager
     
@@ -19,12 +20,14 @@ struct ContentView: View {
                 if let creature = userViewModel.currentUser?.creature {
                     MainTabView()
                         .environmentObject(userViewModel)
+                        .applyGradient(theme.gradients.defaultGradient)
                         .onAppear {
                             navigationManager.reset() // Reset the navigation stack
                         }
                 } else {
                     AuthenticatedView() // Handles onboarding
                         .environmentObject(userViewModel)
+                        .applyGradient(theme.gradients.defaultGradient)
                         .environmentObject(navigationManager)
                 }
             } else {
@@ -37,9 +40,11 @@ struct ContentView: View {
         .onAppear {
             userViewModel.fetchLoggedInUser(modelContext: modelContext)
         }
+        .applyGradient(theme.gradients.defaultGradient)
         .environmentObject(navigationManager) // Provide NavigationManager to child views
     }
 }
+
 
 #Preview {
     ContentView()

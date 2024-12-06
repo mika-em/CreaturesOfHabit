@@ -21,7 +21,7 @@ enum PreviewData {
         creature.level = 1
         return creature
     }()
-    
+
     static let mockUser: User = {
         let user = User(
             username: "JohnDoe",
@@ -37,7 +37,7 @@ enum PreviewData {
         user.creature = creature // Set the creature for the user
         return user
     }()
-    
+
     static let mockHabit = Habit(
         name: "Morning Jog",
         units: 5,
@@ -45,7 +45,7 @@ enum PreviewData {
         unitsUpper: 10,
         ExpRate: 1.5
     )
-    
+
     static let mockHabitLog = HabitLog(
         id: UUID(),
         unitsTotal: 5,

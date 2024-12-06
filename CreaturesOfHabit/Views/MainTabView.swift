@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var userViewModel: UserViewModel
-    
+
     var body: some View {
         Group {
             if let currentUser = userViewModel.currentUser {
@@ -23,7 +23,7 @@ struct MainTabView: View {
                     .tabItem {
                         Label("Creature", systemImage: "pawprint")
                     }
-                    
+
                     ProfileView()
                         .tabItem {
                             Label("Profile", systemImage: "person.crop.circle")

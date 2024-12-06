@@ -25,7 +25,7 @@ struct HatchPetView: View {
                     )
                     .frame(width: 200, height: 200)
                     .padding()
-                    
+    
                     Text("You hatched a \(creature.type)!")
                         .font(.title3)
                         .fontWeight(.bold)
@@ -35,7 +35,7 @@ struct HatchPetView: View {
                         .resizable()
                         .frame(width: 200, height: 200)
                         .padding(.top, 70)
-                    
+    
                     Spacer()
                     Button(action: {
                         withAnimation {
@@ -52,7 +52,7 @@ struct HatchPetView: View {
                     }
                     .padding(.bottom, 100)
                 }
-                
+    
                 if isHatched {
                     Button(action: {
                         dismiss()
@@ -71,7 +71,30 @@ struct HatchPetView: View {
                     .foregroundColor(.red)
             }
         }
-        .padding()
+    }
+
+    private func setMainTabViewAsRoot(with userViewModel: UserViewModel) {
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = scene.windows.first
+        else {
+            print("Unable to access UIWindow")
+            return
+        }
+
+        // Ensure userViewModel is valid
+        guard userViewModel.currentUser != nil else {
+            print("UserViewModel missing currentUser")
+            return
+        }
+
+        let rootView = MainTabView()
+            .environmentObject(userViewModel)
+
+        DispatchQueue.main.async {
+            window.rootViewController = UIHostingController(rootView: rootView)
+            window.makeKeyAndVisible()
+            print("RootViewController set with userViewModel: \(userViewModel)")
+        }
     }
 }
 

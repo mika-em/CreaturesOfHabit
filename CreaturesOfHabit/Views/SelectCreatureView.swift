@@ -89,5 +89,5 @@ struct SelectCreatureView: View {
 }
 
 #Preview {
-    SelectCreatureView(userViewModel: UserViewModel( ))
+    SelectCreatureView(userViewModel: UserViewModel())
 }

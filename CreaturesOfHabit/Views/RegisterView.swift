@@ -13,17 +13,17 @@ struct RegisterView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var userViewModel: UserViewModel
     @StateObject private var registerViewModel = RegisterViewViewModel()
-    
+
     var body: some View {
         VStack(spacing: 20) {
             Text("Register")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-            
+
             TextField("Username", text: $registerViewModel.username)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .autocapitalization(.none)
-            
+
             SecureField("Password", text: $registerViewModel.password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .textContentType(.newPassword)
@@ -38,7 +38,7 @@ struct RegisterView: View {
                 Text(registerViewModel.errorMessage)
                     .foregroundColor(.red)
             }
-            
+
             Button(action: {
                 registerAndDismiss()
             }) {
@@ -48,7 +48,7 @@ struct RegisterView: View {
                     .foregroundColor(.white)
                     .cornerRadius(10)
             }
-            
+
             Spacer()
         }
         .padding()
