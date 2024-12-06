@@ -10,13 +10,13 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.modelContext) private var modelContext
-    
+
     var body: some View {
         VStack(spacing: 20) {
             Text("Profile")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-            
+
             Button(action: {
                 userViewModel.logout(modelContext: modelContext)
             }) {
@@ -26,7 +26,7 @@ struct ProfileView: View {
                     .foregroundColor(.white)
                     .cornerRadius(10)
             }
-            
+
             Spacer()
         }
         .padding()

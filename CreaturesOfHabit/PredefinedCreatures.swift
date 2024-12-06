@@ -1,5 +1,5 @@
 //
-//  PredefinedCreature.swift
+//  PredefinedCreatures.swift
 //  CreaturesOfHabit
 //
 //  Created by Cheryl  Lau on 2024-12-04.
@@ -16,5 +16,5 @@ struct PredefinedCreature {
 let predefinedCreatures = [
     PredefinedCreature(type: "dragon", name: "Drake", state: "baby"),
     PredefinedCreature(type: "slime", name: "Bubbles", state: "baby"),
-    PredefinedCreature(type: "chocobo", name: "Chocobo", state: "baby")
+    PredefinedCreature(type: "chocobo", name: "Chocobo", state: "baby"),
 ]

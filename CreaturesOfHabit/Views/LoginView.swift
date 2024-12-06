@@ -14,7 +14,7 @@ struct LoginView: View {
     @State private var username = ""
     @State private var password = ""
     var onLogin: (() -> Void)? // Add the onLogin callback
-    
+
     var body: some View {
         VStack(spacing: 20) {
             Text("Login")

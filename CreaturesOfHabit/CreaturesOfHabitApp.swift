@@ -13,6 +13,7 @@ struct CreaturesOfHabitApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.theme, ThemeManager.shared)
                 .modelContainer(for: [User.self, Creature.self, Habit.self, HabitLog.self])
         }
     }

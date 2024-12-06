@@ -13,7 +13,7 @@ struct CreatureStatsView: View {
     @Query(FetchDescriptor<Creature>()) private var creature: [Creature]
     @Environment(\.modelContext) private var modelContext
     @ObservedObject var viewModel: CreatureStatsViewModel
-    
+
     private let placeholderCreature = CreaturePlaceholder(
         type: "Slime",
         name: "Slimey",
@@ -23,13 +23,13 @@ struct CreatureStatsView: View {
         expToNextLevel: 1000.0,
         typeStateImage: "slime_baby"
     )
-    
+
     private let placeholderHabits = [
         HabitPlaceholder(icon: "drop.fill", name: "Drink water", reward: 5, isComplete: true),
         HabitPlaceholder(icon: "toothbrush.fill", name: "Brush teeth", reward: 5, isComplete: false),
         HabitPlaceholder(icon: "face.smiling", name: "Wash my face", reward: 5, isComplete: true),
     ]
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
@@ -50,7 +50,7 @@ struct CreatureStatsView: View {
 //            Utils.replaceRootView(with: self)
 //        }
     }
-    
+
     private func completeHabitToggle(for log: HabitLog) {
         if log.unitsCompleted < log.unitsTotal {
             log.incrementUnitsCompleted()
@@ -67,12 +67,12 @@ struct CreatureStatsView: View {
 
 struct CreatureHeader: View {
     let creature: Creature
-    
+
     var body: some View {
         VStack(spacing: 10) {
             Text(creature.name)
                 .font(.largeTitle)
-            AnimatedImageView(firstImageName: "\(creature.typeStateImage)", secondImageName:"\(creature.typeStateImage)2", animationDuration: 0.3)
+            AnimatedImageView(firstImageName: "\(creature.typeStateImage)", secondImageName: "\(creature.typeStateImage)2", animationDuration: 0.3)
             VStack(spacing: 0) {
                 StatRow(title: "Type", value: creature.type.capitalized)
                 StatRow(title: "State", value: creature.state.capitalized)
@@ -88,18 +88,18 @@ struct CreatureHeader: View {
 
 struct CreatureHeaderPlaceholder: View {
     let creature: CreaturePlaceholder
-    
+
     var body: some View {
         VStack(spacing: 10) {
             Text(creature.name)
                 .font(.largeTitle)
-            
+
             Image(creature.typeStateImage)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 250, height: 250)
                 .padding()
-            
+
             VStack(spacing: 0) {
                 StatRow(title: "Type", value: creature.type)
                 StatRow(title: "State", value: creature.state)
@@ -116,13 +116,13 @@ struct CreatureHeaderPlaceholder: View {
 struct HabitList: View {
     let habitLog: [HabitLog]
     let onToggle: (HabitLog) -> Void
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Habits for today")
                 .font(.headline)
                 .padding(.leading)
-            
+
             ScrollView {
                 VStack(spacing: 10) {
                     ForEach(habitLog) { habit in
@@ -139,13 +139,13 @@ struct HabitList: View {
 
 struct HabitListPlaceholder: View {
     let habits: [HabitPlaceholder]
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Goals for today")
                 .font(.headline)
                 .padding(.leading)
-            
+
             ScrollView {
                 VStack(spacing: 10) {
                     ForEach(habits) { habit in
@@ -163,7 +163,7 @@ struct HabitListPlaceholder: View {
 struct HabitRow: View {
     let habitLog: HabitLog
     let onToggle: (HabitLog) -> Void
-    
+
     var body: some View {
         HStack {
             Image(systemName: "circle")
@@ -175,7 +175,7 @@ struct HabitRow: View {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color(.systemGray5))
                 )
-            
+
             VStack(alignment: .leading) {
                 Text(habitLog.habit.name)
                     .font(.body)
@@ -187,9 +187,9 @@ struct HabitRow: View {
                 }
             }
             .padding(.leading)
-            
+
             Spacer()
-            
+
             Button(action: {
                 onToggle(habitLog)
             }) {
@@ -211,7 +211,7 @@ struct HabitRow: View {
 
 struct HabitRowPlaceholder: View {
     let habit: HabitPlaceholder
-    
+
     var body: some View {
         HStack {
             Image(systemName: habit.icon)
@@ -223,7 +223,7 @@ struct HabitRowPlaceholder: View {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color(.systemGray5))
                 )
-            
+
             VStack(alignment: .leading) {
                 Text(habit.name)
                     .font(.body)
@@ -235,9 +235,9 @@ struct HabitRowPlaceholder: View {
                 }
             }
             .padding(.leading)
-            
+
             Spacer()
-            
+
             Image(systemName: habit.isComplete ? "checkmark.circle.fill" : "circle")
                 .foregroundColor(habit.isComplete ? .green : .gray)
                 .font(.title2)
@@ -256,7 +256,7 @@ struct HabitRowPlaceholder: View {
 struct StatRow: View {
     let title: String
     let value: String
-    
+
     var body: some View {
         HStack {
             Text(title)
@@ -295,5 +295,5 @@ struct HabitPlaceholder: Identifiable {
 // MARK: - Preview
 
 #Preview {
-    CreatureStatsView(viewModel : CreatureStatsViewModel(creature: PreviewData.mockUser.creature!, user: PreviewData.mockUser) )
+    CreatureStatsView(viewModel: CreatureStatsViewModel(creature: PreviewData.mockUser.creature!, user: PreviewData.mockUser))
 }
