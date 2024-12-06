@@ -27,6 +27,18 @@ struct ProfileView: View {
                     .cornerRadius(10)
             }
             
+            if let creature = userViewModel.currentUser?.creature {
+                Button(action: {
+                    userViewModel.deleteUserCreature(modelContext: modelContext, creature: creature)
+                }) {
+                    Text("Wipe Creature")
+                        .padding()
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+            }
+            
             Spacer()
         }
         .padding()
