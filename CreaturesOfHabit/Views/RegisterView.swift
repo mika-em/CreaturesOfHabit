@@ -1,6 +1,5 @@
 //
 //  RegisterView.swift
-//  TEST
 //
 //  Created by Alfrey Chan on 2024-11-22.
 //
@@ -94,5 +93,5 @@ struct RegisterView: View {
 
 #Preview {
     RegisterView(userViewModel: UserViewModel())
-        .environment(\.theme, ThemeManager.shared)
+     .environment(\.theme, ThemeManager.shared)
 }

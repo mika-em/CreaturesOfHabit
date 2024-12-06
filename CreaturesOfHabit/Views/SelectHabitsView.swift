@@ -121,7 +121,8 @@ struct SelectHabitsView: View {
     }
 }
 
-//#Preview {
-//    SelectHabitsView()
-//        .environment(\.theme, ThemeManager.shared)
-//}
+#Preview {
+    SelectHabitsView()
+        .environment(\.modelContext, try! ModelContext(ModelContainer(for: Habit.self, User.self, HabitLog.self)))
+          .environment(\.theme, ThemeManager.shared)
+}
