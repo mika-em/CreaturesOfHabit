@@ -25,7 +25,7 @@ struct SelectHabitsView: View {
                 Text("Enter number of units")
                     .font(.headline)
                     .padding()
-
+                
                 TextField("Enter number of units", text: $numberValue)
                     .keyboardType(.numberPad)
                     .padding()
@@ -108,6 +108,6 @@ struct SelectHabitsView: View {
     }
 }
 
-#Preview {
-    SelectHabitsView()
-}
+//#Preview {
+//    SelectHabitsView()
+//}

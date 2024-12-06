@@ -44,7 +44,7 @@ struct CreatureStatsView: View {
                 //                } else {
                 //                    HabitList(habitLog: todayHabits, onToggle: completeHabitToggle)
                 //                }
-                HabitList(habitLog: habitLogs, onToggle: completeHabitToggle, clearHabits: clearHabitLogData, viewModel : viewModel)
+                HabitList(habitLog: habitLogs, onToggle: completeHabitToggle, viewModel : viewModel)
             }
         }
         //        .onAppear {
@@ -61,20 +61,6 @@ struct CreatureStatsView: View {
             try modelContext.save()
         } catch {
             print("Failed to save habit completion: \(error.localizedDescription)")
-        }
-    }
-    
-    private func clearHabitLogData() {
-        // Loop through all habit logs and delete them
-        for habitLog in habitLogs {
-            modelContext.delete(habitLog)
-        }
-        
-        // Save the changes to persist the deletion
-        do {
-            try modelContext.save()
-        } catch {
-            print("Error clearing habit log data: \(error.localizedDescription)")
         }
     }
 }
@@ -134,7 +120,6 @@ struct CreatureHeaderPlaceholder: View {
 struct HabitList: View {
     let habitLog: [HabitLog]
     let onToggle: (HabitLog) -> Void
-    let clearHabits: () -> Void
     @ObservedObject var viewModel: CreatureStatsViewModel
     
     var body: some View {
@@ -146,9 +131,6 @@ struct HabitList: View {
                 .padding(.leading)
             
             ScrollView {
-                Button("Clear Habit Log Data") {
-                    clearHabits()
-                }
                 VStack(spacing: 10) {
                     ForEach(habitLog) { habit in
                         NavigationLink(destination: HabitLogDetailsView(habitLog: habit)) {
