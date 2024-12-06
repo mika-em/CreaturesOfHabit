@@ -150,6 +150,7 @@ struct HabitList: View {
                         NavigationLink(destination: HabitLogDetailsView(habitLog: habit)) {
                             HabitRow(habitLog: habit, onToggle: onToggle)
                         }
+                        .foregroundColor(.primary)
                     }
                 }
                 .padding()
@@ -160,14 +161,15 @@ struct HabitList: View {
                             Text("Add a Habit")
                                 .font(.headline)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.vertical, 10)  // Padding to prevent the button from being too tight
+                                .padding(.vertical, 10)
                         }
                         .background(
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color(.systemGray5))
                                 .shadow(radius: 1)
                         )
-                    }.padding()
+                    }
+                    .padding()
                 }
             }
         }
