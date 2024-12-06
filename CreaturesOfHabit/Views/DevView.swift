@@ -24,7 +24,7 @@ struct DevView: View {
             Button(action: {
                 devViewModel.raiseToAdult()
             }) {
-                Text("Raise to Adult")
+                Text("Add EXP")
                     .font(.headline)
                     .padding()
                     .background(Color.blue)
