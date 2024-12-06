@@ -24,16 +24,6 @@ struct AboutView: View {
                     .font(.body)
                     .padding(.horizontal)
                     .multilineTextAlignment(.center)
-
-                NavigationLink(destination: HatchPetView()) {
-                    Text("Start your journey!")
-                        .padding()
-                        .background(Color.purple)
-                        .foregroundColor(.white)
-                        .cornerRadius(30)
-                        .fontWeight(.bold)
-
-                }.padding(.top, 20)
             }
             Spacer()
             NavigationLink(destination: CreditsView()) {
