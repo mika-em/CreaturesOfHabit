@@ -15,4 +15,12 @@ enum Utils {
         formatter.timeStyle = .none
         return formatter.string(from: date)
     }
+    
+    static func randomExp(unitsLower: Double, unitsUpper: Double) -> Double {
+        let randomValue = Double.random(in: unitsLower...unitsUpper)
+
+        let exp = (randomValue / 5).rounded(.down) * 5
+        
+        return exp
+    }
 }

@@ -22,7 +22,7 @@ class Creature {
     
     @Relationship var user: User
     
-    static let maxLevel = 2
+    static let maxLevel = 3
     static let xpPerLevel = 1000.0
     static let baseLevel = 1
     static let baseEXP = 0.0
@@ -37,7 +37,7 @@ class Creature {
     }
     
     func gainEXP(experience: Double) -> Bool {
-        guard level < Creature.maxLevel else {
+        guard level <= Creature.maxLevel else {
             print("\(name) has reached the max level.")
             return false
         }
@@ -60,8 +60,6 @@ class Creature {
         }
     }
     
-    // Function to level down the creature
-    // TODO: DELETE AFTER TESTING
     private func levelDown() {
         if level > Creature.baseLevel {
             level -= 1
@@ -70,10 +68,7 @@ class Creature {
         }
     }
     
-    // Function to lose experience
-    // TODO: DELETE AFTER TESTING
     func loseEXP(experience: Double) -> Bool {
-        //        currentEXP -= experience
         while level > Creature.baseLevel {
             levelDown()
         }

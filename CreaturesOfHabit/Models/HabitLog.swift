@@ -15,6 +15,7 @@ class HabitLog {
     var unitsCompleted: Double
     var isComplete: Bool
     var date: Date
+    var exp: Double
     @Relationship var user: User
     @Relationship var habit: Habit
 
@@ -26,6 +27,7 @@ class HabitLog {
         self.date = date
         self.user = user
         self.habit = habit
+        self.exp = Utils.randomExp(unitsLower: habit.unitsLower, unitsUpper: habit.unitsUpper)
     }
 
     func incrementUnitsCompleted() {

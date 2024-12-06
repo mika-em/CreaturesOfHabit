@@ -44,7 +44,7 @@ struct CreatureStatsView: View {
 //                } else {
 //                    HabitList(habitLog: todayHabits, onToggle: completeHabitToggle)
 //                }
-                HabitList(habitLog: habitLogs, onToggle: completeHabitToggle, clearHabits: clearHabitLogData)
+                HabitList(habitLog: habitLogs, onToggle: completeHabitToggle, clearHabits: clearHabitLogData, viewModel : viewModel)
             }
         }
 //        .onAppear {
@@ -87,7 +87,7 @@ struct CreatureHeader: View {
         VStack(spacing: 10) {
             Text(viewModel.creature.name)
                 .font(.largeTitle)
-            AnimatedImageView(firstImageName: "\(creature.typeStateImage)", secondImageName:"\(creature.typeStateImage)2", animationDuration: Constants.creatureAnimDuration)
+            AnimatedImageView(firstImageName: "\(viewModel.creature.typeStateImage)", secondImageName:"\(viewModel.creature.typeStateImage)2", animationDuration: Constants.creatureAnimDuration)
             VStack(spacing: 0) {
                 StatRow(title: "Type", value: viewModel.creature.type.capitalized)
                 StatRow(title: "State", value: viewModel.creature.state.capitalized)
@@ -96,40 +96,7 @@ struct CreatureHeader: View {
             }
             .padding(10)
             
-            HStack {
-                Button(action: {
-                    viewModel.raiseToAdult()
-                }) {
-                    Text("Raise to Adult")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                
-                Button(action: {
-                    viewModel.decreaseToBaby()
-                }) {
-                    Text("Decrease to Baby")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                Button(action: {
-                    viewModel.manualSetStats()
-                }) {
-                    Text("Reset")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-            }
-            .padding(.top, 10)
+           
         }
     }
 }
@@ -167,6 +134,7 @@ struct HabitList: View {
     let habitLog: [HabitLog]
     let onToggle: (HabitLog) -> Void
     let clearHabits: () -> Void
+    @ObservedObject var viewModel: CreatureStatsViewModel
     
     var body: some View {
         let openHabitSlot: Bool = habitLog.count < 3
@@ -183,7 +151,7 @@ struct HabitList: View {
                 VStack(spacing: 10) {
                     ForEach(habitLog) { habit in
                         NavigationLink(destination: HabitLogDetailsView(habitLog: habit)) {
-                            HabitRow(habitLog: habit, onToggle: onToggle)
+                            HabitRow(habitLog: habit, onToggle: onToggle, viewModel: viewModel)
                         }
                         .foregroundColor(.primary)
                     }
@@ -239,6 +207,7 @@ struct HabitListPlaceholder: View {
 struct HabitRow: View {
     let habitLog: HabitLog
     let onToggle: (HabitLog) -> Void
+    @ObservedObject var viewModel: CreatureStatsViewModel
     
     var body: some View {
         HStack {
@@ -258,7 +227,7 @@ struct HabitRow: View {
                 HStack {
                     Image(systemName: "bolt.fill")
                         .foregroundColor(.yellow)
-                    Text("5")
+                    Text("\(habitLog.exp)")
                         .font(.subheadline)
                 }
                 Text("\(String(format: "%.2f", habitLog.unitsCompleted))/\(String(format: "%.2f", habitLog.unitsTotal))")
@@ -269,6 +238,7 @@ struct HabitRow: View {
             
             Button(action: {
                 onToggle(habitLog)
+                viewModel.creature.gainEXP(experience: habitLog.exp)
             }) {
                 Image(systemName: habitLog.isComplete ? "checkmark.circle.fill" : "circle")
                     .foregroundColor(habitLog.isComplete ? .green : .gray)

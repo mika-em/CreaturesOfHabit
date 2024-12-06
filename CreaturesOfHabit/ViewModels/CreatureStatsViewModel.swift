@@ -14,14 +14,12 @@ class CreatureStatsViewModel: ObservableObject {
     @Published var user: User
     private var modelContext: ModelContext
     
-    // Initializing the ViewModel with the Creature, User, and ModelContext
     init(creature: Creature, user: User, modelContext: ModelContext) {
         self.creature = creature
         self.user = user
         self.modelContext = modelContext
     }
     
-    // Function to gain experience and save to context
     func gainExperience(_ experience: Double) {
         let gained = creature.gainEXP(experience: experience)
         if gained {
@@ -29,7 +27,6 @@ class CreatureStatsViewModel: ObservableObject {
         }
     }
     
-    // Function to lose experience and save to context
     func loseExperience(_ experience: Double) {
         let lost = creature.loseEXP(experience: experience)
         if lost {
@@ -37,27 +34,22 @@ class CreatureStatsViewModel: ObservableObject {
         }
     }
     
-    // Function to increase the level to "Adult" and save to context
     func raiseToAdult() {
-        let requiredXP = Creature.xpPerLevel // 1000 EXP to level up to Adult
         if creature.level == 1 {
-            gainExperience(requiredXP)
+            gainExperience(500)
             updateCreature()
             print(creature.currentEXP, creature.state)
         }
     }
-    
-    // Function to decrease the level to "Baby" and save to context
+
     func decreaseToBaby() {
-        let requiredXP = Creature.xpPerLevel // 1000 EXP to go down to Baby
         if creature.level == 2 {
-            loseExperience(requiredXP)
+            loseExperience(500)
             updateCreature()
             print(creature.currentEXP, creature.state)
         }
     }
     
-    // Function to manually set stats and save to context
     func manualSetStats() {
         creature.state = "Baby"
         creature.level = 1
@@ -65,19 +57,8 @@ class CreatureStatsViewModel: ObservableObject {
         updateCreature()
     }
     
-    // Function to save changes to the model context
     private func updateCreature() {
         do {
-            // Save the changes to the model context
-            try modelContext.save()
-        } catch {
-            print("Failed to save creature: \(error.localizedDescription)")
-        }
-    }
-    
-    private func saveCreature() {
-        do {
-            // Save the changes to the model context
             try modelContext.save()
         } catch {
             print("Failed to save creature: \(error.localizedDescription)")
