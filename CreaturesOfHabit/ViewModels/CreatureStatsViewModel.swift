@@ -7,18 +7,19 @@
 
 import Foundation
 import SwiftData
+import SwiftUICore
 
 class CreatureStatsViewModel: ObservableObject {
     @Published var creature: Creature
     @Published var user: User
+    private var modelContext: ModelContext
     
-    // Initializing the ViewModel with the Creature and User
-    init(creature: Creature, user: User) {
+    init(creature: Creature, user: User, modelContext: ModelContext) {
         self.creature = creature
         self.user = user
+        self.modelContext = modelContext
     }
     
-    // Fetches the creature's current experience and level
     func gainExperience(_ experience: Double) {
         let gained = creature.gainEXP(experience: experience)
         if gained {
@@ -26,9 +27,47 @@ class CreatureStatsViewModel: ObservableObject {
         }
     }
     
-    // Update the creature (to reflect changes in EXP, level, etc.)
+    func loseExperience(_ experience: Double) {
+        let lost = creature.loseEXP(experience: experience)
+        if lost {
+            updateCreature()
+        }
+    }
+    
+    func raiseToAdult() {
+        if creature.level == 1 {
+            gainExperience(500)
+            updateCreature()
+            print(creature.currentEXP, creature.state)
+        }
+    }
+
+    func decreaseToBaby() {
+        if creature.level == 2 {
+            loseExperience(500)
+            updateCreature()
+            print(creature.currentEXP, creature.state)
+        }
+    }
+    
+    func manualSetStats() {
+        creature.state = "Baby"
+        creature.level = 1
+        creature.currentEXP = 0
+        updateCreature()
+    }
+    
     private func updateCreature() {
-        // Save changes to the model context, if necessary
-        // This logic depends on how you manage your model context.
+        do {
+            try modelContext.save()
+        } catch {
+            print("Failed to save creature: \(error.localizedDescription)")
+        }
     }
 }
+
+
+
+
+
+

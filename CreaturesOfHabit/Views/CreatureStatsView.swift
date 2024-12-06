@@ -33,28 +33,29 @@ struct CreatureStatsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
-                if let creature = creature.first {
-                    CreatureHeader(creature: viewModel.creature)
+                if creature.first != nil {
+                    CreatureHeader(viewModel: viewModel)
                 } else {
                     CreatureHeaderPlaceholder(creature: placeholderCreature)
                 }
-//                let todayHabits = habitLogs.filter { $0.isSameDateAsToday() }
-//                if todayHabits.isEmpty {
-//                    HabitListPlaceholder(habits: placeholderHabits)
-//                } else {
-//                    HabitList(habitLog: todayHabits, onToggle: completeHabitToggle)
-//                }
-                HabitList(habitLog: habitLogs, onToggle: completeHabitToggle, clearHabits: clearHabitLogData)
+                //                let todayHabits = habitLogs.filter { $0.isSameDateAsToday() }
+                //                if todayHabits.isEmpty {
+                //                    HabitListPlaceholder(habits: placeholderHabits)
+                //                } else {
+                //                    HabitList(habitLog: todayHabits, onToggle: completeHabitToggle)
+                //                }
+                HabitList(habitLog: habitLogs, onToggle: completeHabitToggle, clearHabits: clearHabitLogData, viewModel : viewModel)
             }
         }
-//        .onAppear {
-//            Utils.replaceRootView(with: self)
-//        }
+        //        .onAppear {
+        //            Utils.replaceRootView(with: self)
+        //        }
     }
     
     private func completeHabitToggle(for log: HabitLog) {
         if log.unitsCompleted < log.unitsTotal {
             log.incrementUnitsCompleted()
+            viewModel.creature.gainEXP(experience: log.exp)
         }
         do {
             try modelContext.save()
@@ -81,20 +82,22 @@ struct CreatureStatsView: View {
 // MARK: - Creature Header for Creature Stats
 
 struct CreatureHeader: View {
-    let creature: Creature
+    @ObservedObject var viewModel: CreatureStatsViewModel
     
     var body: some View {
         VStack(spacing: 10) {
-            Text(creature.name)
+            Text(viewModel.creature.name)
                 .font(.largeTitle)
-            AnimatedImageView(firstImageName: "\(creature.typeStateImage)", secondImageName:"\(creature.typeStateImage)2", animationDuration: Constants.creatureAnimDuration)
+            AnimatedImageView(firstImageName: "\(viewModel.creature.typeStateImage)", secondImageName:"\(viewModel.creature.typeStateImage)2", animationDuration: Constants.creatureAnimDuration)
             VStack(spacing: 0) {
-                StatRow(title: "Type", value: creature.type.capitalized)
-                StatRow(title: "State", value: creature.state.capitalized)
-                StatRow(title: "Level", value: "\(creature.level)")
-                StatRow(title: "EXP", value: "\(Int(creature.currentEXP))")
+                StatRow(title: "Type", value: viewModel.creature.type.capitalized)
+                StatRow(title: "State", value: viewModel.creature.state.capitalized)
+                StatRow(title: "Level", value: "\(viewModel.creature.level)")
+                StatRow(title: "EXP", value: "\(Int(viewModel.creature.currentEXP))")
             }
             .padding(10)
+            
+            
         }
     }
 }
@@ -132,10 +135,11 @@ struct HabitList: View {
     let habitLog: [HabitLog]
     let onToggle: (HabitLog) -> Void
     let clearHabits: () -> Void
-
+    @ObservedObject var viewModel: CreatureStatsViewModel
+    
     var body: some View {
         let openHabitSlot: Bool = habitLog.count < 3
-
+        
         VStack(alignment: .leading, spacing: 10) {
             Text("Habits for today")
                 .font(.headline)
@@ -148,7 +152,7 @@ struct HabitList: View {
                 VStack(spacing: 10) {
                     ForEach(habitLog) { habit in
                         NavigationLink(destination: HabitLogDetailsView(habitLog: habit)) {
-                            HabitRow(habitLog: habit, onToggle: onToggle)
+                            HabitRow(habitLog: habit, onToggle: onToggle, viewModel: viewModel)
                         }
                         .foregroundColor(.primary)
                     }
@@ -204,6 +208,7 @@ struct HabitListPlaceholder: View {
 struct HabitRow: View {
     let habitLog: HabitLog
     let onToggle: (HabitLog) -> Void
+    @ObservedObject var viewModel: CreatureStatsViewModel
     
     var body: some View {
         HStack {
@@ -223,7 +228,7 @@ struct HabitRow: View {
                 HStack {
                     Image(systemName: "bolt.fill")
                         .foregroundColor(.yellow)
-                    Text("5")
+                    Text("\(habitLog.exp)")
                         .font(.subheadline)
                 }
                 Text("\(String(format: "%.2f", habitLog.unitsCompleted))/\(String(format: "%.2f", habitLog.unitsTotal))")
@@ -333,9 +338,21 @@ struct HabitPlaceholder: Identifiable {
     let reward: Int
     let isComplete: Bool
 }
-
 // MARK: - Preview
 
 #Preview {
-    CreatureStatsView(viewModel : CreatureStatsViewModel(creature: PreviewData.mockUser.creature!, user: PreviewData.mockUser) )
+    // Attempt to create a ModelContext outside of the view body
+    let modelContext: ModelContext
+    do {
+        modelContext = try ModelContext(ModelContainer())
+    } catch {
+        fatalError("Failed to create ModelContext in preview: \(error.localizedDescription)")
+    }
+    let viewModel = CreatureStatsViewModel(
+        creature: PreviewData.mockCreature,
+        user: PreviewData.mockUser,
+        modelContext: modelContext
+    )
+    return CreatureStatsView(viewModel: viewModel)
+        .environment(\.modelContext, modelContext)
 }

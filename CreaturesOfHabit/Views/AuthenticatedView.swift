@@ -35,7 +35,8 @@ struct AuthenticatedView: View {
                 NavigationLink(
                     destination: CreatureStatsView(viewModel: CreatureStatsViewModel(
                         creature: creature,
-                        user: userViewModel.currentUser!
+                        user: userViewModel.currentUser!,
+                        modelContext: modelContext
                     ))
                 ) {
                     Text("Check on your pet")

@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUICore
 
 // Preview data
 enum PreviewData {
@@ -54,4 +55,7 @@ enum PreviewData {
         user: mockUser,
         habit: mockHabit
     )
+    
 }
+
+
