@@ -10,6 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var userViewModel: UserViewModel
+    @Environment(\.theme) private var theme
     
     var body: some View {
         Group {
@@ -22,11 +23,15 @@ struct MainTabView: View {
                     ))
                     .tabItem {
                         Label("Creature", systemImage: "pawprint")
+                        .font(Font(theme.fonts.bodyFont))
+                        .foregroundColor(Color(theme.colors.primaryText))
                     }
                     
                     ProfileView()
                         .tabItem {
                             Label("Profile", systemImage: "person.crop.circle")
+                                .font(Font(theme.fonts.bodyFont))
+                                                          .foregroundColor(Color(theme.colors.primaryText))
                         }
                 }
                 .environment(\.modelContext, modelContext)

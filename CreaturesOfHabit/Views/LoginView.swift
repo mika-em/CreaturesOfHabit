@@ -30,13 +30,15 @@ struct LoginView: View {
                    .background(Color.white)
                    .cornerRadius(15)
                    .padding(.horizontal)
+                   .disableAutocorrection(true)
 
                SecureField("Password", text: $password)
                    .padding()
                    .background(Color.white)
                    .cornerRadius(15)
                    .padding(.horizontal)
-
+                   .disableAutocorrection(true)
+               
                if let errorMessage = userViewModel.errorMessage {
                    Text(errorMessage)
                        .foregroundColor(.red)
