@@ -9,8 +9,8 @@ enum PreviewData {
             password: "password123"
         )
         let creature = Creature(
-            type: "Slime",
-            name: "Slimey",
+            type: "slime",
+            name: "Bobo",
             state: "Baby",
             user: user
         )
