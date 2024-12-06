@@ -8,5 +8,5 @@
 import Foundation
 
 struct Constants {
-    static let creatureAnimDuration: Double = 0.3
+    static let creatureAnimDuration: Double = 0.4
 }
