@@ -11,25 +11,32 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject private var userViewModel = UserViewModel()
+    @StateObject private var navigationManager = NavigationManager() // Add NavigationManager
     
     var body: some View {
-        Group {
+        NavigationStack(path: $navigationManager.path) { // Bind to NavigationManager's path
             if userViewModel.isAuthenticated {
-                NavigationStack {
+                if let creature = userViewModel.currentUser?.creature {
                     MainTabView()
+                        .environmentObject(userViewModel)
+                        .onAppear {
+                            navigationManager.reset() // Reset the navigation stack
+                        }
+                } else {
+                    AuthenticatedView()
                         .environmentObject(userViewModel)
                 }
             } else {
-                NavigationStack {
-                    LandingPageView()
-                        .environment(\.modelContext, modelContext)
-                        .environmentObject(userViewModel)
-                }
+                AuthenticationView(onLogin: {
+                    userViewModel.fetchLoggedInUser(modelContext: modelContext)
+                })
+                .environmentObject(userViewModel)
             }
         }
         .onAppear {
             userViewModel.fetchLoggedInUser(modelContext: modelContext)
         }
+        .environmentObject(navigationManager) // Provide NavigationManager to child views
     }
 }
 
