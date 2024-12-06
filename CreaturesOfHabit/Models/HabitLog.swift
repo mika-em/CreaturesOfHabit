@@ -30,17 +30,19 @@ class HabitLog {
         self.exp = Utils.randomExp(unitsLower: habit.unitsLower, unitsUpper: habit.unitsUpper)
     }
     
-    func incrementUnitsCompleted() {
+    func incrementUnitsCompleted() -> Bool {
         unitsCompleted += 1
-        checkCompletion()
+        let isComplete = checkCompletion()
+        return isComplete
     }
     
-    private func checkCompletion() {
+    private func checkCompletion() -> Bool {
         if unitsCompleted >= unitsTotal {
             unitsCompleted = unitsTotal // Prevent exceeding total?
             isComplete = true
             print("Habit completed!")
         }
+        return isComplete
     }
     
     func isSameDateAsToday() -> Bool {

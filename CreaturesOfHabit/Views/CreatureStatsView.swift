@@ -54,8 +54,8 @@ struct CreatureStatsView: View {
     
     private func completeHabitToggle(for log: HabitLog) {
         if log.unitsCompleted < log.unitsTotal {
-            log.incrementUnitsCompleted()
-            viewModel.creature.gainEXP(experience: log.exp)
+            let isComplete = log.incrementUnitsCompleted()
+            if isComplete {viewModel.creature.gainEXP(experience: log.unitsCompleted * log.exp)}
         }
         do {
             try modelContext.save()
