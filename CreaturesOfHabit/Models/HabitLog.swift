@@ -50,3 +50,7 @@ class HabitLog {
         return calendar.isDate(date, inSameDayAs: Date())
     }
 }
+
+let mockHabitLogs = mockHabits.map { habit in
+    HabitLog(id: UUID(), unitsTotal: habit.units, unitsCompleted: 0, isComplete: false, date: Date(), user: mockUser, habit: habit)
+}

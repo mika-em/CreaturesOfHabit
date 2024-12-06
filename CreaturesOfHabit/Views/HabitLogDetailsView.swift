@@ -53,9 +53,10 @@ struct HabitLogDetailsView: View {
                 }
                 .padding()
                 .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.white)
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.white.opacity(0.1))
                         .shadow(radius: 4)
+//                        .padding(.top, 10)
                 )
                 .padding()
 

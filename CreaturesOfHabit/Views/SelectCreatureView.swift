@@ -40,7 +40,7 @@ struct SelectCreatureView: View {
                             .clipShape(Circle())
                         
                         Text(creature.type.capitalized)
-                            .font(.title2)
+                            .font(.title3)
                             .fontWeight(.medium)
                         
                         Spacer()
@@ -72,7 +72,7 @@ struct SelectCreatureView: View {
                     .cornerRadius(20)
                     .sheet(isPresented: $showHatchPetView) {
                         HatchPetView(onHatchComplete: {
-                            dismiss() // Dismiss SelectCreatureView after hatching
+                            dismiss()
                         }).environmentObject(userViewModel)
                     }
                 }

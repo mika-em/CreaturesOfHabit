@@ -19,9 +19,9 @@ struct HabitRowView: View {
             // Info Icon for Navigation
             NavigationLink(destination: HabitLogDetailsView(habitLog: habitLog)) {
                 Image(systemName: "info.circle")
-                    .foregroundColor(.blue)
+                    .foregroundColor(.gray)
                     .font(.title2)
-                    .frame(width: 30)
+                    .frame(width: 50)
             }
             .buttonStyle(PlainButtonStyle()) // Prevents button appearance
 
@@ -54,7 +54,7 @@ struct HabitRowView: View {
                 onToggle(habitLog) // Increment habit progress
             }) {
                 Image(systemName: habitLog.isComplete ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(habitLog.isComplete ? .purple : .gray)
+                    .foregroundColor(habitLog.isComplete ? .blue : .gray)
                     .font(.title2)
             }
             .buttonStyle(PlainButtonStyle())
