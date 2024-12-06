@@ -11,55 +11,71 @@ struct ProfileView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.modelContext) private var modelContext
     @State private var navigateToDevView = false
+    @Environment(\.theme) private var theme
     
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Profile")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            
-            Button(action: {
-                userViewModel.logout(modelContext: modelContext)
-            }) {
-                Text("Logout")
-                    .padding()
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-            
-            if let creature = userViewModel.currentUser?.creature {
-                Button(action: {
-                    userViewModel.deleteUserCreature(modelContext: modelContext, creature: creature)
-                }) {
-                    Text("Wipe Creature")
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                
-                NavigationStack {
-                    VStack {
-                        Button("Go to Dev View") {
-                            navigateToDevView = true
-                        }
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                    }
-                    .navigationDestination(isPresented: $navigateToDevView) {
-                        DevView(devViewModel: DevViewModel(creature: (userViewModel.currentUser?.creature)!, modelContext: modelContext))
-                    }
-                }
-            }
-            
-            Spacer()
-        }
-        .padding()
-    }
-}
+         ZStack {
+             LinearGradient(
+                 gradient: theme.gradients.defaultGradient,
+                 startPoint: .top,
+                 endPoint: .bottom
+             )
+             .ignoresSafeArea()
+             
+             VStack(spacing: 20) {
+                 Spacer()
+                 
+                 Text("Profile")
+                     .font(Font(theme.fonts.headerFont))
+                     .fontWeight(.bold)
+                     .foregroundColor(Color(theme.colors.primaryText))
+                 
+                 Button(action: {
+                     userViewModel.logout(modelContext: modelContext)
+                 }) {
+                     Text("Logout")
+                         .font(Font(theme.fonts.buttonFont))
+                         .padding()
+                         .background(Color.red)
+                         .foregroundColor(.white)
+                         .cornerRadius(theme.buttons.cornerRadius)
+                 }
+                 
+                 if let creature = userViewModel.currentUser?.creature {
+                     Button(action: {
+                         userViewModel.deleteUserCreature(modelContext: modelContext, creature: creature)
+                     }) {
+                         Text("Wipe Creature")
+                             .font(Font(theme.fonts.buttonFont))
+                             .padding()
+                             .background(Color.red)
+                             .foregroundColor(.white)
+                             .cornerRadius(theme.buttons.cornerRadius)
+                     }
+                     
+                     NavigationStack {
+                         VStack {
+                             Button("Go to Dev View") {
+                                 navigateToDevView = true
+                             }
+                             .padding()
+                             .background(Color.blue)
+                             .foregroundColor(.white)
+                             .cornerRadius(10)
+                         }
+                         .navigationDestination(isPresented: $navigateToDevView) {
+                             DevView(devViewModel: DevViewModel(creature: (userViewModel.currentUser?.creature)!, modelContext: modelContext))
+                         }
+                     }
+                 }
+                 
+                 Spacer()
+             }
+             .padding()
+             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+         }
+     }
+ }
 
 #Preview {
     let mockViewModel = UserViewModel()
@@ -67,4 +83,5 @@ struct ProfileView: View {
 
     return ProfileView()
         .environmentObject(mockViewModel)
+         .environment(\.theme, ThemeManager.shared)
 }

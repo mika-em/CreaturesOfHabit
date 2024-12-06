@@ -25,3 +25,10 @@ class Habit {
         self.ExpRate = ExpRate
     }
 }
+
+let mockHabits = [
+    Habit(name: "Drink water", units: 2, unitsLower: 1, unitsUpper: 3, ExpRate: 5),
+    Habit(name: "Brush teeth", units: 1, unitsLower: 1, unitsUpper: 2, ExpRate: 10),
+    Habit(name: "Morning jog", units: 3, unitsLower: 1, unitsUpper: 5, ExpRate: 15),
+    Habit(name: "Read a book", units: 10, unitsLower: 2, unitsUpper: 10, ExpRate: 8)
+]

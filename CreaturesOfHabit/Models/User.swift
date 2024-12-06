@@ -22,3 +22,4 @@ class User {
         self.creature = creature
     }
 }
+let mockUser = User(username: "mikaem", password: "mika")

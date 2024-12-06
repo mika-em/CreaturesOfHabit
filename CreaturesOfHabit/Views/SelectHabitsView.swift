@@ -17,28 +17,35 @@ struct SelectHabitsView: View {
     @State private var selectedNumber: Double = 5
     @State private var numberValue: String = ""
     @State private var generatedHabits: [Habit] = []
+    @Environment(\.theme) private var theme
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 40) {
             ScrollView{
                 Spacer()
                 Text("Enter number of units")
-                    .font(.headline)
+                    .font(.title2)
+                    .fontWeight(.medium)
+                    .foregroundColor(Color(theme.colors.primaryText))
                     .padding()
                 
                 TextField("Enter number of units", text: $numberValue)
                     .keyboardType(.numberPad)
                     .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+//                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .background(Color.white)
+                          .cornerRadius(15)
+                          .font(Font(theme.fonts.bodyFont))
                     .onChange(of: numberValue) {
                         if let value = Double(numberValue) {
                             selectedNumber = value
                         }
                     }
-                
+                Spacer()
                 Text("Pick a Habit")
-                    .font(.title)
+                    .font(.title2)
                     .fontWeight(.bold)
+                    .foregroundColor(Color(theme.colors.primaryText))
                     .padding(.top)
                 ForEach(generatedHabits) { habit in
                     Button(action: {
@@ -47,12 +54,13 @@ struct SelectHabitsView: View {
                         dismiss()                  // Navigate back to MainTabView
                     }) {
                         Text(habit.name)
-                            .font(.body)
+                            .font(Font(theme.fonts.bodyFont))
                             .padding()
                             .frame(maxWidth: .infinity)
                             .background(selectedHabitID == habit.id ? Color.purple : Color(.systemGray5))
                             .foregroundColor(selectedHabitID == habit.id ? .white : .primary)
-                            .cornerRadius(10)
+                            .cornerRadius(theme.buttons.cornerRadius)
+                                                        .padding(.horizontal)
                     }
                 }
             }
@@ -72,7 +80,12 @@ struct SelectHabitsView: View {
             }
         }
         .padding()
-    }
+        .background(LinearGradient(
+            gradient: theme.gradients.alternateGradient,
+                    startPoint: .top,
+                    endPoint: .bottom
+                ).ignoresSafeArea())
+            }
     
     private func addHabitToGoals(_ habit: Habit) {
         guard let currentUser = users.first(where: { $0.isLoggedIn }) else { return }
@@ -111,4 +124,5 @@ struct SelectHabitsView: View {
 #Preview {
     SelectHabitsView()
         .environment(\.modelContext, try! ModelContext(ModelContainer(for: Habit.self, User.self, HabitLog.self)))
+          .environment(\.theme, ThemeManager.shared)
 }

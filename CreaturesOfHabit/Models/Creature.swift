@@ -16,6 +16,7 @@ class Creature {
     var state: String
     var level: Int
     var currentEXP: Double
+    
     var typeStateImage: String {
         "\(type.lowercased())_\(state.lowercased())"
     }
@@ -87,10 +88,12 @@ class Creature {
         return true
     }
     
-    private func expUntilNextLevel() -> Double {
+    public func expUntilNextLevel() -> Double {
         // Level 1 -> 0 (base level), Level 2 -> 1000, Level 3 -> 2000
         Double(level) * Creature.xpPerLevel
     }
+    
+    
     
     private func updateState() {
         switch level {
