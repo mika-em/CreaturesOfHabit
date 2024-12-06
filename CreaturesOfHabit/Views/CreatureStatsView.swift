@@ -218,6 +218,7 @@ struct HabitRow: View {
                     Text("5")
                         .font(.subheadline)
                 }
+                Text("\(String(format: "%.2f", habitLog.unitsCompleted))/\(String(format: "%.2f", habitLog.unitsTotal))")
             }
             .padding(.leading)
             
