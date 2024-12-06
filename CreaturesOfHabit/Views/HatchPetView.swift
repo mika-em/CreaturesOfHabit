@@ -13,7 +13,8 @@ struct HatchPetView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.dismiss) private var dismiss
     let onHatchComplete: () -> Void
-    
+    @EnvironmentObject var navigationManager: NavigationManager
+
     var body: some View {
         VStack(spacing: 20) {
             if let creature = userViewModel.currentUser?.creature {

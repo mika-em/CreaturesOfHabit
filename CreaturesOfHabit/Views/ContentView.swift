@@ -13,7 +13,7 @@ struct ContentView: View {
     @Environment(\.theme) private var theme
     @StateObject private var userViewModel = UserViewModel()
     @StateObject private var navigationManager = NavigationManager() // Add NavigationManager
-    
+
     var body: some View {
         NavigationStack(path: $navigationManager.path) { // Bind to NavigationManager's path
             if userViewModel.isAuthenticated {
@@ -35,13 +35,37 @@ struct ContentView: View {
                     userViewModel.fetchLoggedInUser(modelContext: modelContext)
                 })
                 .environmentObject(userViewModel)
+        ZStack {
+            LinearGradient(
+                gradient: theme.gradients.defaultGradient,
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            NavigationStack(path: $navigationManager.path) { // Bind to NavigationManager's path
+                if userViewModel.isAuthenticated {
+                    if let creature = userViewModel.currentUser?.creature {
+                        MainTabView()
+                            .environmentObject(userViewModel)
+                            .onAppear {
+                                navigationManager.reset() // Reset the navigation stack
+                            }
+                    } else {
+                        AuthenticatedView()
+                            .environmentObject(userViewModel)
+                    }
+                } else {
+                    AuthenticationView(onLogin: {
+                        userViewModel.fetchLoggedInUser(modelContext: modelContext)
+                    })
+                    .environmentObject(userViewModel)
+                }
             }
         }
         .onAppear {
             userViewModel.fetchLoggedInUser(modelContext: modelContext)
         }
-        .applyGradient(theme.gradients.defaultGradient)
-        .environmentObject(navigationManager) // Provide NavigationManager to child views
+        .environmentObject(navigationManager)
     }
 }
 

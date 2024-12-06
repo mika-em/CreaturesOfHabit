@@ -9,45 +9,62 @@ import SwiftData
 import SwiftUI
 
 struct LoginView: View {
-    @Environment(\.modelContext) private var modelContext
+    @Environment(\.modelContext) private var modelContext: ModelContext
     @ObservedObject var userViewModel: UserViewModel
     @State private var username = ""
     @State private var password = ""
     var onLogin: (() -> Void)? // Add the onLogin callback
+    @Environment(\.theme) private var theme
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Login")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+        ZStack {
+            LinearGradient(
+                gradient: theme.gradients.defaultGradient,
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-            TextField("Username", text: $username)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocapitalization(.none)
-
-            SecureField("Password", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-
-            if let errorMessage = userViewModel.errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-            }
-
-            Button(action: {
-                userViewModel.login(username: username, password: password, modelContext: modelContext)
-                if userViewModel.isAuthenticated { // Trigger the onLogin callback if authenticated
-                    onLogin?()
-                }
-            }) {
+            VStack(spacing: 30) {
+                // Header
                 Text("Login")
-                    .padding()
-                    .background(Color.purple)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
+                    .font(Font(theme.fonts.headerFont))
+                    .foregroundColor(Color(theme.colors.primaryText))
+                    .padding(.bottom, 10)
 
-            Spacer()
+                // Login Form
+                VStack(spacing: 20) {
+                    TextField("Username", text: $username)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+                        .frame(maxWidth: 300)
+                        .autocapitalization(.none)
+
+                    SecureField("Password", text: $password)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+                        .frame(maxWidth: 300) // Limit text field width
+
+                    if let errorMessage = userViewModel.errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .font(.caption)
+                            .padding(.top, 5)
+                    }
+
+                    // Login Button
+                    Button(action: {
+                        userViewModel.login(username: username, password: password, modelContext: modelContext)
+                        if userViewModel.isAuthenticated {
+                            onLogin?()
+                        }
+                    }) {
+                        Text("Login")
+                    }
+                    .buttonStyle(ThemedButtonStyle())
+                    .frame(maxWidth: 200)
+                }
+            }
         }
-        .padding()
     }
 }

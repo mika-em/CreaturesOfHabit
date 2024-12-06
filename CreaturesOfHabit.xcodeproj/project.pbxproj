@@ -12,9 +12,22 @@
 		948B80662CF78D7F0018365E /* CreaturesOfHabit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CreaturesOfHabit.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7DF970CB2D029EF40083423C /* Exceptions for "CreaturesOfHabit" folder in "CreaturesOfHabit" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 35F5297D2CDEBE1F007292A7 /* CreaturesOfHabit */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		35F529802CDEBE1F007292A7 /* CreaturesOfHabit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7DF970CB2D029EF40083423C /* Exceptions for "CreaturesOfHabit" folder in "CreaturesOfHabit" target */,
+			);
 			path = CreaturesOfHabit;
 			sourceTree = "<group>";
 		};
