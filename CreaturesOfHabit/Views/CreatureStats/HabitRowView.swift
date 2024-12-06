@@ -12,6 +12,7 @@ struct HabitRowView: View {
     let habitLog: HabitLog
     let onToggle: (HabitLog) -> Void
     @ObservedObject var viewModel: CreatureStatsViewModel
+    @Environment(\.theme) private var theme
 
     var body: some View {
         HStack {
@@ -29,13 +30,20 @@ struct HabitRowView: View {
             VStack(alignment: .leading) {
                 Text(habitLog.habit.name)
                     .font(.body)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color(theme.colors.primaryText))
+
                 HStack {
                     Image(systemName: "bolt.fill")
                         .foregroundColor(.yellow)
-                    Text("\(habitLog.exp)")
+                    Text("\(formattedXP(for: habitLog.exp))")
                         .font(.subheadline)
+                        .foregroundColor(Color(theme.colors.secondaryText))
                 }
-                Text("\(String(format: "%.2f", habitLog.unitsCompleted))/\(String(format: "%.2f", habitLog.unitsTotal))")
+
+                Text("\(formattedUnits(for: habitLog.unitsCompleted))/\(formattedUnits(for: habitLog.unitsTotal))")
+                    .font(.subheadline)
+                    .foregroundColor(Color(theme.colors.secondaryText))
             }
             .padding(.leading)
 
@@ -46,22 +54,32 @@ struct HabitRowView: View {
                 onToggle(habitLog) // Increment habit progress
             }) {
                 Image(systemName: habitLog.isComplete ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(habitLog.isComplete ? .green : .gray)
+                    .foregroundColor(habitLog.isComplete ? .purple : .gray)
                     .font(.title2)
             }
-            .buttonStyle(PlainButtonStyle()) // Prevents button appearance
+            .buttonStyle(PlainButtonStyle())
         }
-        .padding()
+        .padding(EdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20))
+        .frame(maxWidth: .infinity)
         .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color(.systemGray6))
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
                 .shadow(radius: 2)
         )
-        // Row click to increment (excluding NavigationLink area)
+        .padding(.horizontal)
         .onTapGesture {
             onToggle(habitLog)
         }
     }
+    
+    private func formattedXP(for xp: Double) -> String {
+           return String(format: "%.0f", xp)  // Removes trailing zeros
+       }
+       
+       // Helper function to format units
+       private func formattedUnits(for units: Double) -> String {
+           return String(format: "%.1f", units)  // Keeps 2 decimal places
+       }
 }
 
 #Preview {

@@ -12,13 +12,17 @@ struct HabitListView: View {
     let habitLog: [HabitLog]
     let onToggle: (HabitLog) -> Void
     @ObservedObject var viewModel: CreatureStatsViewModel
+    @Environment(\.theme) private var theme
 
     var body: some View {
         let openHabitSlot = habitLog.count < 3
 
         VStack(alignment: .leading, spacing: 10) {
-            Text("Habits for today")
+            Text("Daily Habits")
                 .font(.headline)
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+                .foregroundColor(Color(theme.colors.primaryText)) // Apply theme color
                 .padding(.leading)
 
             ScrollView {
@@ -38,10 +42,11 @@ struct HabitListView: View {
                                     .font(.headline)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.vertical, 10)
+                                    .foregroundColor(.white)
                             }
                             .background(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color(.systemGray5))
+                                    .fill(Color.purple)
                                     .shadow(radius: 1)
                             )
                         }
