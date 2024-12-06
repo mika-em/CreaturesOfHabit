@@ -11,14 +11,14 @@ struct SelectCreatureView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var selectedCreature: PredefinedCreature? = nil
     @ObservedObject var userViewModel: UserViewModel
-    
+
     var body: some View {
         VStack {
             Text("Select your creature")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding()
-            
+
             // List of predefined creatures
             List(predefinedCreatures, id: \.type) { creature in
                 HStack {
@@ -27,13 +27,13 @@ struct SelectCreatureView: View {
                         .scaledToFit()
                         .frame(width: 100, height: 100)
                         .clipShape(Circle())
-                    
+
                     Text(creature.type.capitalized)
                         .font(.title2)
                         .fontWeight(.medium)
-                    
+
                     Spacer()
-                    
+
                     if selectedCreature?.type == creature.type {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.green)
@@ -47,7 +47,7 @@ struct SelectCreatureView: View {
                 }
             }
             .padding()
-            
+
             if let selectedCreature = selectedCreature {
                 NavigationLink(destination: HatchPetView().environmentObject(userViewModel)) {
                     Text("Confirm Selection")
@@ -63,17 +63,17 @@ struct SelectCreatureView: View {
             }
         }
     }
-    
+
     private func selectCreature(creature: PredefinedCreature) {
         selectedCreature = creature
     }
-    
+
     private func saveSelectedCreature(creature: PredefinedCreature) {
         guard let user = userViewModel.currentUser else { return }
-        
+
         let newCreature = Creature(type: creature.type, name: creature.name, state: creature.state, user: user)
         user.creature = newCreature
-        
+
         do {
             try modelContext.save()
             print("Creature saved successfully.")
@@ -84,5 +84,5 @@ struct SelectCreatureView: View {
 }
 
 #Preview {
-    SelectCreatureView(userViewModel: UserViewModel( ))
+    SelectCreatureView(userViewModel: UserViewModel())
 }

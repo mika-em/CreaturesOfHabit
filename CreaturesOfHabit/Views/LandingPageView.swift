@@ -11,9 +11,9 @@ import SwiftUI
 struct LandingPageView: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject private var userViewModel = UserViewModel()
-    
+
     var onLogin: (() -> Void)? // Optional callback for login success
-    
+
     var body: some View {
         Group {
             if userViewModel.isAuthenticated {
@@ -24,18 +24,18 @@ struct LandingPageView: View {
                             .resizable()
                             .foregroundColor(Color.purple)
                             .frame(width: 120, height: 120)
-                        
+
                         Text("Welcome to \nCreatures of Habit")
                             .font(.largeTitle)
                             .fontWeight(.medium)
                             .multilineTextAlignment(.center)
                             .padding()
-                        
+
                         Text("Build healthy habits and watch your creature grow!")
                             .multilineTextAlignment(.center)
                             .font(.title3)
                             .padding()
-                        
+
                         NavigationLink(
                             destination: CreatureStatsView(viewModel: CreatureStatsViewModel(creature: creature, user: userViewModel.currentUser!))
                         ) {
@@ -45,7 +45,7 @@ struct LandingPageView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(30)
                         }
-                        
+
                         NavigationLink(destination: AboutView()) {
                             Text("Learn More")
                                 .padding()
@@ -53,7 +53,7 @@ struct LandingPageView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(30)
                         }
-                        
+
                         Button(action: {
                             userViewModel.logout(modelContext: modelContext)
                         }) {
@@ -63,7 +63,7 @@ struct LandingPageView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(8)
                         }
-                        
+
                         Button(action: {
                             if let creature = userViewModel.currentUser?.creature {
                                 userViewModel.deleteUserCreature(modelContext: modelContext, creature: creature)
@@ -83,18 +83,18 @@ struct LandingPageView: View {
                             .resizable()
                             .foregroundColor(Color.purple)
                             .frame(width: 120, height: 120)
-                        
+
                         Text("Welcome to \nCreatures of Habit")
                             .font(.largeTitle)
                             .fontWeight(.medium)
                             .multilineTextAlignment(.center)
                             .padding()
-                        
+
                         Text("Build healthy habits and watch your creature grow!")
                             .multilineTextAlignment(.center)
                             .font(.title3)
                             .padding()
-                        
+
                         NavigationLink(
                             destination: SelectCreatureView(userViewModel: userViewModel)
                         ) {
@@ -104,7 +104,7 @@ struct LandingPageView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(30)
                         }
-                        
+
                         NavigationLink(destination: AboutView()) {
                             Text("Learn More")
                                 .padding()
@@ -112,7 +112,7 @@ struct LandingPageView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(30)
                         }
-                        
+
                         Button(action: {
                             userViewModel.logout(modelContext: modelContext)
                         }) {

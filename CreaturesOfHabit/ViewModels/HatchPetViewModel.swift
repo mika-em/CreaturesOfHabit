@@ -7,8 +7,6 @@
 
 import Foundation
 
-class HatchPetViewModel : ObservableObject{
-    
+class HatchPetViewModel: ObservableObject {
     @Published var currentUser: User? = nil
-    
 }

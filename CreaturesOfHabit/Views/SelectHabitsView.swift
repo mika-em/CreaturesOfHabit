@@ -14,8 +14,8 @@ struct SelectHabitsView: View {
     @Query(FetchDescriptor<User>()) private var users: [User]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    @State private var selectedHabitID: UUID? = nil  // Track the selected habit
-    
+    @State private var selectedHabitID: UUID? = nil // Track the selected habit
+
     var body: some View {
         VStack(spacing: 20) {
             Spacer()
@@ -23,12 +23,12 @@ struct SelectHabitsView: View {
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.top)
-            
+
             ForEach(habits, id: \.self) { habit in
                 Button(action: {
-                    selectedHabitID = habit.id  // Update the selected habit
-                    addHabitToGoals(habit)      // Add the habit to goals
-                    dismiss()                  // Navigate back to MainTabView
+                    selectedHabitID = habit.id // Update the selected habit
+                    addHabitToGoals(habit) // Add the habit to goals
+                    dismiss() // Navigate back to MainTabView
                 }) {
                     Text(habit.name)
                         .font(.body)
@@ -39,20 +39,20 @@ struct SelectHabitsView: View {
                         .cornerRadius(10)
                 }
             }
-            
+
             Spacer()
         }
         .padding()
     }
-    
+
     private func addHabitToGoals(_ habit: Habit) {
         guard let currentUser = users.first(where: { $0.isLoggedIn }) else { return }
-        
+
         let isAlreadyAddedToday = getUserHabitLogs(for: currentUser).contains {
             $0.habit.id == habit.id && $0.isSameDateAsToday()
         }
         guard !isAlreadyAddedToday else { return }
-        
+
         let newLog = HabitLog(
             id: UUID(),
             unitsTotal: habit.units,
@@ -63,10 +63,10 @@ struct SelectHabitsView: View {
             habit: habit
         )
         modelContext.insert(newLog)
-        
+
         do { try modelContext.save() } catch { print("Error saving habit log: \(error)") }
     }
-    
+
     private func getUserHabitLogs(for user: User) -> [HabitLog] {
         return (try? modelContext.fetch(FetchDescriptor<HabitLog>()).filter {
             $0.user.id == user.id

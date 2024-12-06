@@ -12,7 +12,7 @@ class UserViewModel: ObservableObject {
     @Published var currentUser: User? = nil
     @Published var isAuthenticated = false
     @Published var errorMessage: String? = nil
-    
+
     func login(username: String, password: String, modelContext: ModelContext) {
         do {
             // Fetch the user matching the username
@@ -21,9 +21,9 @@ class UserViewModel: ObservableObject {
             if let user = users.first(where: { $0.username == username && $0.password == password }) {
                 user.isLoggedIn = true
                 try modelContext.save()
-                
+
                 currentUser = user
-                
+
                 if let creature = user.creature {
                 } else {
                     print("User has no creature assigned.")
@@ -38,10 +38,10 @@ class UserViewModel: ObservableObject {
             errorMessage = "An error occurred: \(error.localizedDescription)"
         }
     }
-    
+
     func logout(modelContext: ModelContext) {
         guard let user = currentUser else { return }
-        
+
         do {
             user.isLoggedIn = false
             try modelContext.save()
@@ -51,7 +51,7 @@ class UserViewModel: ObservableObject {
             errorMessage = "Logout attempt failed: \(error.localizedDescription)"
         }
     }
-    
+
     func fetchLoggedInUser(modelContext: ModelContext) {
         do {
             let users = try modelContext.fetch(FetchDescriptor<User>())
@@ -63,19 +63,18 @@ class UserViewModel: ObservableObject {
             errorMessage = "Failed to fetch logged-in user: \(error.localizedDescription)"
         }
     }
-    
+
     func deleteUserCreature(modelContext: ModelContext, creature: Creature) {
-        
         currentUser?.creature = nil
         modelContext.delete(creature)
-        
+
         do {
             try modelContext.save()
             print("Creature deleted and context saved successfully.")
         } catch {
             print("Failed to save context after deletion: \(error.localizedDescription)")
         }
-        
+
         fetchLoggedInUser(modelContext: modelContext)
     }
 }

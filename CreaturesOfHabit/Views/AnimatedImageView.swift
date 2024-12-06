@@ -12,7 +12,7 @@ struct AnimatedImageView: View {
     let firstImageName: String
     let secondImageName: String
     let animationDuration: Double
-    
+
     var body: some View {
         VStack {
             // Display the current image
@@ -21,20 +21,19 @@ struct AnimatedImageView: View {
                 .scaledToFit()
                 .frame(width: 250, height: 250)
                 .transition(.opacity) // Use opacity for a smooth transition
-            .onAppear {
-                startImageCycle()
-            }
+                .onAppear {
+                    startImageCycle()
+                }
         }
     }
-    
+
     // Method to cycle the images at regular intervals
     private func startImageCycle() {
         Timer.scheduledTimer(withTimeInterval: animationDuration, repeats: true) { _ in
-            showFirstImage.toggle()  // No animation
+            showFirstImage.toggle() // No animation
         }
     }
 }
-
 
 #Preview {
     AnimatedImageView(
