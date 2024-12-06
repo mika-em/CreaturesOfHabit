@@ -13,41 +13,66 @@ struct LoginView: View {
     @ObservedObject var userViewModel: UserViewModel
     @State private var username = ""
     @State private var password = ""
-    var onLogin: (() -> Void)? // Add the onLogin callback
+    var onLogin: (() -> Void)?
+    @Environment(\.theme) private var theme
     
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Login")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+           VStack(spacing: 20) {
+               Spacer()
 
-            TextField("Username", text: $username)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocapitalization(.none)
+               Text("Login")
+                   .font(Font(theme.fonts.headerFont))
+                   .fontWeight(.bold)
+                   .foregroundColor(Color(theme.colors.primaryText))
 
-            SecureField("Password", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+               TextField("Username", text: $username)
+                   .padding()
+                   .background(Color.white)
+                   .cornerRadius(15)
+                   .padding(.horizontal)
 
-            if let errorMessage = userViewModel.errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-            }
+               SecureField("Password", text: $password)
+                   .padding()
+                   .background(Color.white)
+                   .cornerRadius(15)
+                   .padding(.horizontal)
 
-            Button(action: {
-                userViewModel.login(username: username, password: password, modelContext: modelContext)
-                if userViewModel.isAuthenticated { // Trigger the onLogin callback if authenticated
-                    onLogin?()
-                }
-            }) {
-                Text("Login")
-                    .padding()
-                    .background(Color.purple)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
+               if let errorMessage = userViewModel.errorMessage {
+                   Text(errorMessage)
+                       .foregroundColor(.red)
+               }
+               
+               Button(action: {
+                   userViewModel.login(username: username, password: password, modelContext: modelContext)
+                   if userViewModel.isAuthenticated {
+                       onLogin?()
+                   }
+               }) {
+                   Text("Login")
+                       .font(Font(theme.fonts.buttonFont))
+                       .padding()
+                       .background(Color(theme.colors.primaryButtonBackground))
+                       .foregroundColor(Color(theme.colors.primaryButtonForeground))
+                       .cornerRadius(20)
+               }
+               .buttonStyle(ThemedButtonStyle(backgroundColor: Color(theme.colors.primaryButtonBackground)))
 
-            Spacer()
-        }
-        .padding()
-    }
-}
+               Spacer()
+           }
+           .padding()
+           .background(
+               LinearGradient(
+                   gradient: theme.gradients.defaultGradient,
+                   startPoint: .top,
+                   endPoint: .bottom
+               )
+               .ignoresSafeArea()
+           )
+           .frame(maxWidth: .infinity, maxHeight: .infinity)
+       }
+   }
+
+   #Preview {
+       LoginView(userViewModel: UserViewModel(), onLogin: nil)
+           .environment(\.theme, ThemeManager.shared)
+   }

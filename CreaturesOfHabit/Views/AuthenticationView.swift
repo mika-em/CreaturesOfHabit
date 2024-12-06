@@ -12,15 +12,35 @@ import SwiftUI
 struct AuthenticationView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.modelContext) private var modelContext
-    var onLogin: (() -> Void)? // Optional login callback
+    var onLogin: (() -> Void)?
+    @Environment(\.theme) private var theme
     
     var body: some View {
-        VStack(spacing: 20) {
-            LoginView(userViewModel: userViewModel, onLogin: onLogin)
-            NavigationLink(destination: RegisterView(userViewModel: userViewModel)) {
-                Text("Don't have an account? Create One!")
-                    .foregroundColor(.blue)
+        ZStack {
+            LinearGradient(
+                           gradient: theme.gradients.defaultGradient,
+                           startPoint: .top,
+                           endPoint: .bottom
+                       )
+                       .ignoresSafeArea()
+            
+            VStack(spacing: 30) {
+                          Spacer()
+
+                LoginView(userViewModel: userViewModel, onLogin: onLogin)
+                    .padding(.horizontal, 30)
+                
+                NavigationLink(destination: RegisterView(userViewModel: userViewModel)) {
+                    Text("Don't have an account? Create One!")
+                        .font(Font(theme.fonts.bodyFont))
+                        .foregroundColor(Color(theme.colors.secondaryText))
+                        .padding()
+                }
+                .frame(maxWidth: .infinity)
+
+                Spacer()
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
