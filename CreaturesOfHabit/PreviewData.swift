@@ -9,16 +9,14 @@ enum PreviewData {
             password: "password123"
         )
         let creature = Creature(
-            type: "slime",
-            name: "Bobo",
+            type: "dragon",
+            name: "Drake",
             state: "Baby",
             user: user
         )
-        // Set the user's creature to avoid circular reference issues
         user.creature = creature
-        // Optionally, pre-set experience and level for the mock if needed
-        creature.currentEXP = 200.0
-        creature.level = 1
+        creature.currentEXP = 300.0
+        creature.level = 2
         return creature
     }()
     
@@ -27,14 +25,13 @@ enum PreviewData {
             username: "JohnDoe",
             password: "password123"
         )
-        // Assign creature to the user (avoiding circular reference)
         let creature = Creature(
-            type: "Phoenix",
-            name: "Fiery",
-            state: "Active",
+            type: "chocobo",
+            name: "Chocobo",
+            state: "Baby",
             user: user
         )
-        user.creature = creature // Set the creature for the user
+        user.creature = creature
         return user
     }()
     
