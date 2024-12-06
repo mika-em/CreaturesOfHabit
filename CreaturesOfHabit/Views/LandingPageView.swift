@@ -37,7 +37,7 @@ struct LandingPageView: View {
                             .padding()
                         
                         NavigationLink(
-                            destination: CreatureStatsView(viewModel: CreatureStatsViewModel(creature: creature, user: userViewModel.currentUser!))
+                            destination: CreatureStatsView(viewModel: CreatureStatsViewModel(creature: creature, user: userViewModel.currentUser!, modelContext: modelContext))
                         ) {
                             Text("Check on your pet")
                                 .padding()

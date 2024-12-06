@@ -17,7 +17,8 @@ struct MainTabView: View {
                 TabView {
                     CreatureStatsView(viewModel: CreatureStatsViewModel(
                         creature: currentUser.creature ?? PreviewData.mockCreature,
-                        user: currentUser
+                        user: currentUser,
+                        modelContext: modelContext
                     ))
                     .tabItem {
                         Label("Creature", systemImage: "pawprint")

@@ -34,7 +34,7 @@ struct CreatureStatsView: View {
         ScrollView {
             VStack(spacing: 10) {
                 if let creature = creature.first {
-                    CreatureHeader(creature: viewModel.creature)
+                    CreatureHeader(viewModel: viewModel)
                 } else {
                     CreatureHeaderPlaceholder(creature: placeholderCreature)
                 }
@@ -81,20 +81,55 @@ struct CreatureStatsView: View {
 // MARK: - Creature Header for Creature Stats
 
 struct CreatureHeader: View {
-    let creature: Creature
+    @ObservedObject var viewModel: CreatureStatsViewModel
     
     var body: some View {
         VStack(spacing: 10) {
-            Text(creature.name)
+            Text(viewModel.creature.name)
                 .font(.largeTitle)
             AnimatedImageView(firstImageName: "\(creature.typeStateImage)", secondImageName:"\(creature.typeStateImage)2", animationDuration: Constants.creatureAnimDuration)
             VStack(spacing: 0) {
-                StatRow(title: "Type", value: creature.type.capitalized)
-                StatRow(title: "State", value: creature.state.capitalized)
-                StatRow(title: "Level", value: "\(creature.level)")
-                StatRow(title: "EXP", value: "\(Int(creature.currentEXP))")
+                StatRow(title: "Type", value: viewModel.creature.type.capitalized)
+                StatRow(title: "State", value: viewModel.creature.state.capitalized)
+                StatRow(title: "Level", value: "\(viewModel.creature.level)")
+                StatRow(title: "EXP", value: "\(Int(viewModel.creature.currentEXP))")
             }
             .padding(10)
+            
+            HStack {
+                Button(action: {
+                    viewModel.raiseToAdult()
+                }) {
+                    Text("Raise to Adult")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                
+                Button(action: {
+                    viewModel.decreaseToBaby()
+                }) {
+                    Text("Decrease to Baby")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                Button(action: {
+                    viewModel.manualSetStats()
+                }) {
+                    Text("Reset")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+            }
+            .padding(.top, 10)
         }
     }
 }
@@ -132,10 +167,10 @@ struct HabitList: View {
     let habitLog: [HabitLog]
     let onToggle: (HabitLog) -> Void
     let clearHabits: () -> Void
-
+    
     var body: some View {
         let openHabitSlot: Bool = habitLog.count < 3
-
+        
         VStack(alignment: .leading, spacing: 10) {
             Text("Habits for today")
                 .font(.headline)
@@ -333,9 +368,21 @@ struct HabitPlaceholder: Identifiable {
     let reward: Int
     let isComplete: Bool
 }
-
 // MARK: - Preview
 
 #Preview {
-    CreatureStatsView(viewModel : CreatureStatsViewModel(creature: PreviewData.mockUser.creature!, user: PreviewData.mockUser) )
+    // Attempt to create a ModelContext outside of the view body
+    let modelContext: ModelContext
+    do {
+        modelContext = try ModelContext(ModelContainer())
+    } catch {
+        fatalError("Failed to create ModelContext in preview: \(error.localizedDescription)")
+    }
+    let viewModel = CreatureStatsViewModel(
+        creature: PreviewData.mockCreature,
+        user: PreviewData.mockUser,
+        modelContext: modelContext
+    )
+    return CreatureStatsView(viewModel: viewModel)
+        .environment(\.modelContext, modelContext)
 }
