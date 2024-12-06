@@ -58,6 +58,7 @@ struct HabitListView: View {
                 }
                 .padding()
             }
+            .ignoresSafeArea(.keyboard)
         }
     }
 }

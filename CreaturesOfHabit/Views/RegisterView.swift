@@ -32,31 +32,29 @@ struct RegisterView: View {
                     .foregroundColor(Color(theme.colors.primaryText))
                 
                 TextField("Username", text: $registerViewModel.username)
-//                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .disableAutocorrection(true)
                     .autocapitalization(.none)
                     .padding()
-                     .background(Color.white)
-                     .cornerRadius(15)
-                     .padding(.horizontal)
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    .padding(.horizontal)
                 
                 SecureField("Password", text: $registerViewModel.password)
-//                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .textContentType(.newPassword)
                     .autocapitalization(.none)
                     .padding()
-                   .background(Color.white)
-                   .cornerRadius(15)
-                   .padding(.horizontal)
-
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    .padding(.horizontal)
+                
                 
                 SecureField("Confirm Password", text: $registerViewModel.confirmPassword)
-//                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .textContentType(.newPassword)
                     .autocapitalization(.none)
                     .padding()
-                   .background(Color.white)
-                   .cornerRadius(15)
-                   .padding(.horizontal)
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    .padding(.horizontal)
                 
                 if registerViewModel.showError {
                     Text(registerViewModel.errorMessage)
@@ -93,5 +91,5 @@ struct RegisterView: View {
 
 #Preview {
     RegisterView(userViewModel: UserViewModel())
-     .environment(\.theme, ThemeManager.shared)
+        .environment(\.theme, ThemeManager.shared)
 }

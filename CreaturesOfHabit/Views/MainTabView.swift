@@ -36,6 +36,7 @@ struct MainTabView: View {
                 }
                 .environment(\.modelContext, modelContext)
                 .environmentObject(userViewModel) // Redundant but safe
+                .background(Color.white.edgesIgnoringSafeArea(.all)) 
             } else {
                 // Redirect to LandingPageView if the user is logged out
                 LandingPageView()

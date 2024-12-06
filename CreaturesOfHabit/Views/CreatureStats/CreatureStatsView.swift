@@ -16,10 +16,9 @@ struct CreatureStatsView: View {
     @Environment(\.theme) private var theme
     
     @State private var selectedCreature: Creature?
-
+    
     var body: some View {
         let todayHabits = habitLogs.filter { $0.isSameDateAsToday() }
-        
         
         ZStack {
             //clear any pre-exisiting colors
@@ -32,28 +31,27 @@ struct CreatureStatsView: View {
                 endPoint: .bottom
             )
             .ignoresSafeArea(edges: .top)
-
-            ScrollView {
-                VStack(spacing: 5) {
-                    //creature header
-                    if let creature = userViewModel.currentUser?.creature {
-                        CreatureHeaderView(viewModel: viewModel)
-                            .padding(.top, 40)
-                    } else {
-                        Text("No creature found.")
-                            .font(.title)
-                            .foregroundColor(.gray)
-                    }
-                    
-                    //goals and habit list
-                    HabitListView(habitLog: todayHabits, onToggle: completeHabitToggle, viewModel: viewModel)
-                        .padding(.bottom, 20)
-                        .padding(.top, 0)
+            
+            VStack(spacing: 5) {
+                //creature header
+                if let creature = userViewModel.currentUser?.creature {
+                    CreatureHeaderView(viewModel: viewModel)
+                        .padding(.top, 40)
+                } else {
+                    Text("No creature found.")
+                        .font(.title)
+                        .foregroundColor(.gray)
                 }
-                .padding(.horizontal, 20)
+                
+                //goals and habit list
+                HabitListView(habitLog: todayHabits, onToggle: completeHabitToggle, viewModel: viewModel)
             }
-            }
+            .padding(.top, 0)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 0.2)
+            .ignoresSafeArea(.keyboard)
         }
+    }
     
     private func completeHabitToggle(for log: HabitLog) {
         if log.unitsCompleted < log.unitsTotal {
@@ -66,7 +64,7 @@ struct CreatureStatsView: View {
             print("Failed to save habit completion: \(error.localizedDescription)")
         }
     }
-
+    
     private func creatureGradient() -> Gradient {
         if let creature = userViewModel.currentUser?.creature {
             switch creature.type.lowercased() {
