@@ -17,13 +17,13 @@ struct LoginView: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        ZStack {
-            LinearGradient(
-                gradient: theme.gradients.defaultGradient,
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+//        ZStack {
+//            LinearGradient(
+//                gradient: theme.gradients.defaultGradient,
+//                startPoint: .top,
+//                endPoint: .bottom
+//            )
+//            .ignoresSafeArea()
 
             VStack(spacing: 30) {
                 // Header
@@ -61,10 +61,10 @@ struct LoginView: View {
                     }) {
                         Text("Login")
                     }
-                    .buttonStyle(ThemedButtonStyle())
+                    .buttonStyle(ThemedButtonStyle(backgroundColor: Color(theme.colors.primaryButtonBackground)))
                     .frame(maxWidth: 200)
                 }
             }
         }
     }
-}
+//}

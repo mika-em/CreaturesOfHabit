@@ -14,6 +14,7 @@ struct AuthenticationView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.modelContext) private var modelContext
     var onLogin: (() -> Void)? // Optional login callback
+    
 
     var body: some View {
         ZStack {
@@ -40,6 +41,6 @@ struct AuthenticationView: View {
     }
 }
 
-#Preview {
-    AuthenticationView()
-}
+//#Preview {
+//    AuthenticationView()
+//}
