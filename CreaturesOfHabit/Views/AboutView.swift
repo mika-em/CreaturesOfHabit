@@ -19,7 +19,7 @@ struct AboutView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .padding(.top)
-
+                
                 Text("Creatures of Comfort helps you build healthy habits by caring for a pet. Build your habits and help your pet thrive!")
                     .font(.body)
                     .padding(.horizontal)
@@ -30,7 +30,7 @@ struct AboutView: View {
                 Text("Credits")
                     .foregroundColor(.black)
                     .fontWeight(.semibold)
-
+                
             }.padding(.bottom, 30)
         }
         .padding()
@@ -39,5 +39,5 @@ struct AboutView: View {
 }
 
 #Preview {
-    AboutView()
+    AboutView().environmentObject(UserViewModel())
 }

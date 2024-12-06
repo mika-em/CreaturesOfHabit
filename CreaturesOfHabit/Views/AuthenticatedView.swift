@@ -125,5 +125,5 @@ struct AuthenticatedView: View {
 }
 
 #Preview {
-    AuthenticatedView()
+    AuthenticatedView().environmentObject(UserViewModel())
 }

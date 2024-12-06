@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.modelContext) private var modelContext
+    @State private var navigateToDevView = false
     
     var body: some View {
         VStack(spacing: 20) {
@@ -37,6 +38,21 @@ struct ProfileView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
+                
+                NavigationStack {
+                    VStack {
+                        Button("Go to Dev View") {
+                            navigateToDevView = true
+                        }
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                    }
+                    .navigationDestination(isPresented: $navigateToDevView) {
+                        DevView(devViewModel: DevViewModel(creature: (userViewModel.currentUser?.creature)!, modelContext: modelContext))
+                    }
+                }
             }
             
             Spacer()
@@ -45,6 +61,7 @@ struct ProfileView: View {
     }
 }
 
-#Preview {
-    ProfileView()
-}
+//#Preview {
+//    ProfileView().environmentObject(UserViewModel())
+//
+//}
