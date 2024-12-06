@@ -18,6 +18,11 @@
 			path = CreaturesOfHabit;
 			sourceTree = "<group>";
 		};
+		7DF971762D02F4F60083423C /* Theme */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Theme;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +41,7 @@
 			children = (
 				35F529802CDEBE1F007292A7 /* CreaturesOfHabit */,
 				35F5297F2CDEBE1F007292A7 /* Products */,
+				7DF971762D02F4F60083423C /* Theme */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,6 +80,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				35F529802CDEBE1F007292A7 /* CreaturesOfHabit */,
+				7DF971762D02F4F60083423C /* Theme */,
 			);
 			name = CreaturesOfHabit;
 			packageProductDependencies = (
