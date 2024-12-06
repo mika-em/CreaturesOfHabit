@@ -7,123 +7,137 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct AuthenticatedView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.modelContext) private var modelContext
-    
+    @Environment(\.theme) private var theme // Inject the theme environment
+
     var body: some View {
-        if let creature = userViewModel.currentUser?.creature {
+        ZStack {
+            LinearGradient(
+                gradient: theme.gradients.defaultGradient,
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
             VStack(spacing: 20) {
-                Image(systemName: "heart.fill")
-                    .resizable()
-                    .foregroundColor(Color.purple)
-                    .frame(width: 120, height: 120)
-                
-                Text("Welcome to \nCreatures of Habit")
-                    .font(.largeTitle)
-                    .fontWeight(.medium)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                
-                Text("Build healthy habits and watch your creature grow!")
-                    .multilineTextAlignment(.center)
-                    .font(.title3)
-                    .padding()
-                
-                NavigationLink(
-                    destination: CreatureStatsView(viewModel: CreatureStatsViewModel(
-                        creature: creature,
-                        user: userViewModel.currentUser!,
-                        modelContext: modelContext
-                    ))
-                ) {
-                    Text("Check on your pet")
+                if let creature = userViewModel.currentUser?.creature {
+                    Image(systemName: "heart.fill")
+                        .resizable()
+                        .foregroundColor(Color.purple)
+                        .frame(width: 120, height: 120)
+                    
+                    Text("Welcome to \nCreatures of Habit")
+                        .font(Font(theme.fonts.headerFont))
+                        .fontWeight(.medium)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color(theme.colors.primaryText))
                         .padding()
-                        .background(Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(30)
-                }
-                
-                NavigationLink(destination: AboutView()) {
-                    Text("Learn More")
+
+                    Text("Build healthy habits and watch your creature grow!")
+                        .font(Font(theme.fonts.bodyFont))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color(theme.colors.secondaryText))
                         .padding()
-                        .background(Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(30)
-                }
-                
-                Button(action: {
-                    userViewModel.logout(modelContext: modelContext)
-                }) {
-                    Text("Logout")
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-                
-                Button(action: {
-                    if let creature = userViewModel.currentUser?.creature {
-                        userViewModel.deleteUserCreature(modelContext: modelContext, creature: creature)
+
+                    NavigationLink(
+                        destination: CreatureStatsView(viewModel: CreatureStatsViewModel(
+                            creature: creature,
+                            user: userViewModel.currentUser!,
+                            modelContext: modelContext
+                        ))
+                    ) {
+                        Text("Check on your pet")
+                            .padding()
+                            .background(Color(theme.colors.primaryButtonBackground))
+                            .foregroundColor(.white)
+                            .cornerRadius(theme.buttons.cornerRadius)
                     }
-                }) {
-                    Text("Wipe Creature")
+                    .buttonStyle(ThemedButtonStyle(backgroundColor: Color(theme.colors.primaryButtonBackground)))
+
+                    NavigationLink(destination: AboutView()) {
+                        Text("Learn More")
+                            .padding()
+                            .background(Color(theme.colors.secondaryButtonBackground))
+                            .foregroundColor(.white)
+                            .cornerRadius(theme.buttons.cornerRadius)
+                    }
+                    .buttonStyle(ThemedButtonStyle(backgroundColor: Color(theme.colors.secondaryButtonBackground)))
+
+                    Button(action: {
+                        userViewModel.logout(modelContext: modelContext)
+                    }) {
+                        Text("Logout")
+                            .font(Font(theme.fonts.bodyFont))
+                            .foregroundColor(Color.red)
+                    }
+                    Button(action: {
+                        if let creature = userViewModel.currentUser?.creature {
+                            userViewModel.deleteUserCreature(modelContext: modelContext, creature: creature)
+                        }
+                    }) {
+                        Text("Wipe Creature")
+                            .font(Font(theme.fonts.bodyFont))
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(theme.buttons.cornerRadius)
+                    }
+                    .buttonStyle(ThemedButtonStyle(backgroundColor: Color.red))
+                } else {
+                    Image(systemName: "heart.fill")
+                        .resizable()
+                        .foregroundColor(Color.purple)
+                        .frame(width: 120, height: 120)
+
+                    Text("Welcome to \nCreatures of Habit")
+                        .font(Font(theme.fonts.headerFont))
+                        .fontWeight(.medium)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color(theme.colors.primaryText))
                         .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+
+                    Text("Build healthy habits and watch your creature grow!")
+                        .font(Font(theme.fonts.bodyFont))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color(theme.colors.secondaryText))
+                        .padding()
+
+                    NavigationLink(destination: SelectCreatureView(userViewModel: userViewModel)) {
+                        Text("Start your journey")
+                            .padding()
+                            .background(Color(theme.colors.primaryButtonBackground))
+                            .foregroundColor(.white)
+                            .cornerRadius(theme.buttons.cornerRadius)
+                    }
+                    .buttonStyle(ThemedButtonStyle(backgroundColor: Color(theme.colors.primaryButtonBackground)))
+
+                    NavigationLink(destination: AboutView()) {
+                        Text("Learn More")
+                            .padding()
+                            .background(Color(theme.colors.secondaryButtonBackground))
+                            .foregroundColor(.white)
+                            .cornerRadius(theme.buttons.cornerRadius)
+                    }
+                    .buttonStyle(ThemedButtonStyle(backgroundColor: Color(theme.colors.secondaryButtonBackground)))
+
+                    Button(action: {
+                        userViewModel.logout(modelContext: modelContext)
+                    }) {
+                        Text("Logout")
+                            .font(Font(theme.fonts.bodyFont))
+                            .foregroundColor(Color.red)
+                    }.padding(.top, 60)
                 }
             }
-        } else {
-            VStack(spacing: 20) {
-                Image(systemName: "heart.fill")
-                    .resizable()
-                    .foregroundColor(Color.purple)
-                    .frame(width: 120, height: 120)
-                
-                Text("Welcome to \nCreatures of Habit")
-                    .font(.largeTitle)
-                    .fontWeight(.medium)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                
-                Text("Build healthy habits and watch your creature grow!")
-                    .multilineTextAlignment(.center)
-                    .font(.title3)
-                    .padding()
-                
-                NavigationLink(destination: SelectCreatureView(userViewModel: userViewModel)) {
-                    Text("Start your journey")
-                        .padding()
-                        .background(Color.purple)
-                        .foregroundColor(.white)
-                        .cornerRadius(30)
-                }
-                
-                NavigationLink(destination: AboutView()) {
-                    Text("Learn More")
-                        .padding()
-                        .background(Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(30)
-                }
-                
-                Button(action: {
-                    userViewModel.logout(modelContext: modelContext)
-                }) {
-                    Text("Logout")
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-            }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .center)
         }
     }
 }
 
 #Preview {
-    AuthenticatedView().environmentObject(UserViewModel())
+    AuthenticatedView()
+        .environmentObject(UserViewModel())
+        .environment(\.theme, ThemeManager.shared)
 }

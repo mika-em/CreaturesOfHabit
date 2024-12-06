@@ -29,9 +29,9 @@ struct ThemedButtonStyle: ButtonStyle {
                     ? backgroundColor.opacity(0.8)
                     : backgroundColor
             )
-            .foregroundColor(Color(theme.colors.primaryButtonForeground)) // Text color
-            .cornerRadius(theme.buttons.cornerRadius) // Rounded corners
-            .scaleEffect(configuration.isPressed ? 0.95 : 1.0) // Press animation
-            .animation(.easeInOut(duration: 0.2), value: configuration.isPressed) // Smooth animation
+            .foregroundColor(Color(theme.colors.primaryButtonForeground))
+            .cornerRadius(theme.buttons.cornerRadius)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .animation(.easeInOut(duration: 0.2), value: configuration.isPressed)
     }
 }
