@@ -23,8 +23,9 @@ struct ContentView: View {
                             navigationManager.reset() // Reset the navigation stack
                         }
                 } else {
-                    AuthenticatedView()
+                    AuthenticatedView() // Handles onboarding
                         .environmentObject(userViewModel)
+                        .environmentObject(navigationManager)
                 }
             } else {
                 AuthenticationView(onLogin: {

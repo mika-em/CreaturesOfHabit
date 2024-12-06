@@ -10,9 +10,11 @@ import SwiftUI
 
 struct HatchPetView: View {
     @State private var isHatched = false
-    @EnvironmentObject var userViewModel: UserViewModel  // Access the environment object
+    @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var navigationManager: NavigationManager
-    
+    @Environment(\.dismiss) private var dismiss
+    let onHatchComplete: () -> Void
+
     var body: some View {
         VStack(spacing: 20) {
             if isHatched {
@@ -21,7 +23,7 @@ struct HatchPetView: View {
                     .frame(width: 200, height: 200)
                     .foregroundColor(.orange)
                     .padding()
-                
+
                 Text("You hatched a slime!")
                     .font(.title3)
                     .fontWeight(.bold)
@@ -31,7 +33,7 @@ struct HatchPetView: View {
                     .resizable()
                     .frame(width: 200, height: 200)
                     .padding(.top, 70)
-                
+
                 Spacer()
                 Button(action: {
                     withAnimation {
@@ -48,11 +50,11 @@ struct HatchPetView: View {
                 }
                 .padding(.bottom, 100)
             }
-            
+
             if isHatched {
                 Button(action: {
-                    userViewModel.currentUser?.creature = Creature(type: "Slime", name: "Slimy", state: "Active", user: userViewModel.currentUser!)
-                    navigationManager.reset() // Clear stack after creature creation
+                    dismiss() // Close the modal
+                    onHatchComplete() // Notify SelectCreatureView
                 }) {
                     Text("Continue")
                         .fontWeight(.bold)
@@ -63,13 +65,13 @@ struct HatchPetView: View {
                 }
             }
         }
-        .onAppear {
-            // Add this debugging to confirm userViewModel exists in HatchPetView
-            print("HatchPetView userViewModel before root switch: \(userViewModel)")
-        }
     }
 }
 
 #Preview {
-    HatchPetView()
+    HatchPetView(onHatchComplete: {
+        print("Hatch complete in preview!")
+    })
+    .environmentObject(UserViewModel())
+    .environmentObject(NavigationManager())
 }
