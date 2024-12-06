@@ -1,6 +1,5 @@
 //
 //  RegisterView.swift
-//  TEST
 //
 //  Created by Alfrey Chan on 2024-11-22.
 //
@@ -62,4 +61,8 @@ struct RegisterView: View {
             dismiss()
         }
     }
+}
+
+#Preview {
+    RegisterView(userViewModel: UserViewModel())
 }

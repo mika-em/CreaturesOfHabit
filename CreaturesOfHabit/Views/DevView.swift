@@ -4,6 +4,8 @@
 //
 //  Created by Cheryl  Lau on 2024-12-05.
 //
+//  Developer functions to manipulate data
+//  NO PREVIEW
 
 import SwiftUI
 import SwiftData
@@ -97,14 +99,3 @@ struct DevView: View {
         }
     }
 }
-
-//#Preview {
-//    DevView(
-//        creatureStatsViewModel: CreatureStatsViewModel(creature: Creature(), user: User(), modelContext: ModelContext())
-//    )
-//}
-
-
-
-
-
