@@ -147,22 +147,28 @@ struct HabitList: View {
                 }
                 VStack(spacing: 10) {
                     ForEach(habitLog) { habit in
-                        HabitRow(habitLog: habit, onToggle: onToggle)
-                    }
-                    if openHabitSlot {
-                        NavigationView {
-                            NavigationLink(destination: SelectHabitsView()) {
-                                HStack {
-                                    Image(systemName: "plus.circle")
-                                    Text("Add a Habit")
-                                        .font(.headline)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                }
-                            }
+                        NavigationLink(destination: HabitLogDetailsView(habitLog: habit)) {
+                            HabitRow(habitLog: habit, onToggle: onToggle)
                         }
                     }
                 }
                 .padding()
+                if openHabitSlot {
+                    NavigationLink(destination: SelectHabitsView()) {
+                        HStack {
+                            Image(systemName: "plus.circle")
+                            Text("Add a Habit")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.vertical, 10)  // Padding to prevent the button from being too tight
+                        }
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color(.systemGray5))
+                                .shadow(radius: 1)
+                        )
+                    }.padding()
+                }
             }
         }
     }

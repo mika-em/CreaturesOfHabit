@@ -108,6 +108,6 @@ struct SelectHabitsView: View {
     }
 }
 
-//#Preview {
-//    SelectHabitsView()
-//}
+#Preview {
+    SelectHabitsView()
+}
