@@ -327,6 +327,19 @@ struct HabitRow: View {
                 .foregroundColor(.gray)
 
             // Toggle Completion Button
+        HStack(spacing: 15) {
+            // Habit Name
+            Text(habitLog.habit.name)
+                .font(.subheadline)
+                .foregroundColor(.black)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            // XP Text
+            Text("5 XP")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+
+            // Toggle Completion Button
             Button(action: {
                 onToggle(habitLog)
             }) {

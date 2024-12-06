@@ -1,5 +1,6 @@
 //
 //  CreatureStatsViewModel.swift
+//  CreatureStatsViewModel.swift
 //  CreaturesOfHabit
 //
 //  Created by Cheryl  Lau on 2024-12-04.

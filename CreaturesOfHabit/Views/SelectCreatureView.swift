@@ -21,6 +21,7 @@ struct SelectCreatureView: View {
                 .fontWeight(.bold)
                 .padding()
 
+
             // List of predefined creatures
             List(predefinedCreatures, id: \.type) { creature in
                 HStack {
@@ -30,11 +31,14 @@ struct SelectCreatureView: View {
                         .frame(width: 100, height: 100)
                         .clipShape(Circle())
 
+
                     Text(creature.type.capitalized)
                         .font(.title2)
                         .fontWeight(.medium)
 
+
                     Spacer()
+
 
                     if selectedCreature?.type == creature.type {
                         Image(systemName: "checkmark.circle.fill")
@@ -49,6 +53,7 @@ struct SelectCreatureView: View {
                 }
             }
             .padding()
+
 
             if let selectedCreature = selectedCreature {
                 Button("Confirm Selection") {
@@ -69,15 +74,19 @@ struct SelectCreatureView: View {
         }
     }
 
+
     private func selectCreature(creature: PredefinedCreature) {
         selectedCreature = creature
     }
 
+
     private func saveSelectedCreature(creature: PredefinedCreature) {
         guard let user = userViewModel.currentUser else { return }
 
+
         let newCreature = Creature(type: creature.type, name: creature.name, state: creature.state, user: user)
         user.creature = newCreature
+
 
         do {
             try modelContext.save()
@@ -89,5 +98,6 @@ struct SelectCreatureView: View {
 }
 
 #Preview {
+    SelectCreatureView(userViewModel: UserViewModel())
     SelectCreatureView(userViewModel: UserViewModel())
 }

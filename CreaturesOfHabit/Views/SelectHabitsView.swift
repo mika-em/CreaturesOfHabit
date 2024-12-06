@@ -74,13 +74,16 @@ struct SelectHabitsView: View {
         .padding()
     }
 
+
     private func addHabitToGoals(_ habit: Habit) {
         guard let currentUser = users.first(where: { $0.isLoggedIn }) else { return }
+
 
         let isAlreadyAddedToday = getUserHabitLogs(for: currentUser).contains {
             $0.habit.id == habit.id && $0.isSameDateAsToday()
         }
         guard !isAlreadyAddedToday else { return }
+
 
         let newLog = HabitLog(
             id: UUID(),
@@ -93,8 +96,10 @@ struct SelectHabitsView: View {
         )
         modelContext.insert(newLog)
 
+
         do { try modelContext.save() } catch { print("Error saving habit log: \(error)") }
     }
+
 
     private func getUserHabitLogs(for user: User) -> [HabitLog] {
         return (try? modelContext.fetch(FetchDescriptor<HabitLog>()).filter {

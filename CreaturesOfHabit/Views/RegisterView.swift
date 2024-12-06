@@ -15,6 +15,8 @@ struct RegisterView: View {
     @StateObject private var registerViewModel = RegisterViewViewModel()
     @Environment(\.theme) private var theme
 
+    @Environment(\.theme) private var theme
+
     var body: some View {
         ZStack {
             LinearGradient(

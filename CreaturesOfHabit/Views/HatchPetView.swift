@@ -15,6 +15,7 @@ struct HatchPetView: View {
     let onHatchComplete: () -> Void
     @EnvironmentObject var navigationManager: NavigationManager
 
+
     var body: some View {
         VStack(spacing: 20) {
             if let creature = userViewModel.currentUser?.creature {
@@ -71,6 +72,30 @@ struct HatchPetView: View {
                 Text("No creature selected!")
                     .foregroundColor(.red)
             }
+        }
+    }
+
+    private func setMainTabViewAsRoot(with userViewModel: UserViewModel) {
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = scene.windows.first
+        else {
+            print("Unable to access UIWindow")
+            return
+        }
+
+        // Ensure userViewModel is valid
+        guard userViewModel.currentUser != nil else {
+            print("UserViewModel missing currentUser")
+            return
+        }
+
+        let rootView = MainTabView()
+            .environmentObject(userViewModel)
+
+        DispatchQueue.main.async {
+            window.rootViewController = UIHostingController(rootView: rootView)
+            window.makeKeyAndVisible()
+            print("RootViewController set with userViewModel: \(userViewModel)")
         }
     }
 
