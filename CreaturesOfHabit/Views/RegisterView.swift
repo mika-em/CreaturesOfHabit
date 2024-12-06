@@ -10,6 +10,7 @@ import SwiftUI
 
 struct RegisterView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     @ObservedObject var userViewModel: UserViewModel
     @StateObject private var registerViewModel = RegisterViewViewModel()
     
@@ -25,13 +26,13 @@ struct RegisterView: View {
             
             SecureField("Password", text: $registerViewModel.password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .textContentType(.newPassword) // Prevent autofill suggestions
-                .autocapitalization(.none)     // Disable capitalization
+                .textContentType(.newPassword)
+                .autocapitalization(.none)
             
             SecureField("Confirm Password", text: $registerViewModel.confirmPassword)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .textContentType(.newPassword) // Prevent autofill suggestions
-                .autocapitalization(.none)     // Disable capitalization
+                .textContentType(.newPassword)
+                .autocapitalization(.none)
             
             if registerViewModel.showError {
                 Text(registerViewModel.errorMessage)
@@ -39,7 +40,7 @@ struct RegisterView: View {
             }
             
             Button(action: {
-                registerViewModel.registerUser(userViewModel: userViewModel, modelContext: modelContext)
+                registerAndDismiss()
             }) {
                 Text("Register")
                     .padding()
@@ -51,5 +52,14 @@ struct RegisterView: View {
             Spacer()
         }
         .padding()
+    }
+    
+    private func registerAndDismiss() {
+        registerViewModel.registerUser(userViewModel: userViewModel, modelContext: modelContext)
+        
+        // If there's no error, dismiss the view
+        if !registerViewModel.showError {
+            dismiss()
+        }
     }
 }
