@@ -22,6 +22,7 @@ struct HatchPetView: View {
                     .foregroundColor(.orange)
                     .padding()
 
+
                 Text("You hatched a slime!")
                     .font(.title3)
                     .fontWeight(.bold)

@@ -11,6 +11,7 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.theme) private var theme
+    @Environment(\.theme) private var theme
     @StateObject private var userViewModel = UserViewModel()
     @StateObject private var navigationManager = NavigationManager() // Add NavigationManager
     
@@ -28,6 +29,7 @@ struct ContentView: View {
                     AuthenticatedView()
                         .environmentObject(userViewModel)
                         .applyGradient(theme.gradients.defaultGradient)
+                        .applyGradient(theme.gradients.defaultGradient)
                 }
             } else {
                 AuthenticationView(onLogin: {
@@ -43,6 +45,7 @@ struct ContentView: View {
         .environmentObject(navigationManager) // Provide NavigationManager to child views
     }
 }
+
 
 
 #Preview {
