@@ -64,7 +64,11 @@ struct SelectHabitsView: View {
                 print("Populated Habits. Seeding Complete!")
             }
             for _ in 0..<3 {
-                generatedHabits.append(generateRandomHabit())
+                var habit = generateRandomHabit()
+                while generatedHabits.contains(habit){
+                    habit = generateRandomHabit()
+                }
+                generatedHabits.append(habit)
             }
         }
         .padding()
