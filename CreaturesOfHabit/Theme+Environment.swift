@@ -1,9 +1,10 @@
 //
-//  Theme+Environment.swift
+//  ThemeEnvironment.swift
 //  CreaturesOfHabit
 //
+// 
 //  Created by Mika M on 2024-12-05.
-//  Integrates Theme into the SwiftUI environment by allowing global access to the theme.
+//
 
 import Foundation
 import SwiftUI
