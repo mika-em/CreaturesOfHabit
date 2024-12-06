@@ -10,9 +10,9 @@ import SwiftUI
 
 struct HatchPetView: View {
     @State private var isHatched = false
-    @EnvironmentObject var userViewModel: UserViewModel  // Access the environment object
+    @EnvironmentObject var userViewModel: UserViewModel // Access the environment object
     @EnvironmentObject var navigationManager: NavigationManager
-    
+
     var body: some View {
         VStack(spacing: 20) {
             if isHatched {
@@ -21,7 +21,6 @@ struct HatchPetView: View {
                     .frame(width: 200, height: 200)
                     .foregroundColor(.orange)
                     .padding()
-
 
                 Text("You hatched a slime!")
                     .font(.title3)

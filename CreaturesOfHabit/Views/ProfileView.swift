@@ -11,13 +11,11 @@ struct ProfileView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.modelContext) private var modelContext
 
-
     var body: some View {
         VStack(spacing: 20) {
             Text("Profile")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-
 
             Button(action: {
                 userViewModel.logout(modelContext: modelContext)
@@ -28,7 +26,7 @@ struct ProfileView: View {
                     .foregroundColor(.white)
                     .cornerRadius(10)
             }
-            
+
             if let creature = userViewModel.currentUser?.creature {
                 Button(action: {
                     userViewModel.deleteUserCreature(modelContext: modelContext, creature: creature)
@@ -40,7 +38,7 @@ struct ProfileView: View {
                         .cornerRadius(10)
                 }
             }
-            
+
             Spacer()
         }
         .padding()

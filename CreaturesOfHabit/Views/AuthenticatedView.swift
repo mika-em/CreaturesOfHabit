@@ -12,7 +12,7 @@ import SwiftUI
 struct AuthenticatedView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.modelContext) private var modelContext
-    
+
     var body: some View {
         if let creature = userViewModel.currentUser?.creature {
             VStack(spacing: 20) {
@@ -20,18 +20,18 @@ struct AuthenticatedView: View {
                     .resizable()
                     .foregroundColor(Color.purple)
                     .frame(width: 120, height: 120)
-                
+
                 Text("Welcome to \nCreatures of Habit")
                     .font(.largeTitle)
                     .fontWeight(.medium)
                     .multilineTextAlignment(.center)
                     .padding()
-                
+
                 Text("Build healthy habits and watch your creature grow!")
                     .multilineTextAlignment(.center)
                     .font(.title3)
                     .padding()
-                
+
                 NavigationLink(
                     destination: CreatureStatsView(viewModel: CreatureStatsViewModel(
                         creature: creature,
@@ -44,7 +44,7 @@ struct AuthenticatedView: View {
                         .foregroundColor(.white)
                         .cornerRadius(30)
                 }
-                
+
                 NavigationLink(destination: AboutView()) {
                     Text("Learn More")
                         .padding()
@@ -52,7 +52,7 @@ struct AuthenticatedView: View {
                         .foregroundColor(.white)
                         .cornerRadius(30)
                 }
-                
+
                 Button(action: {
                     userViewModel.logout(modelContext: modelContext)
                 }) {
@@ -62,7 +62,7 @@ struct AuthenticatedView: View {
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
-                
+
                 Button(action: {
                     if let creature = userViewModel.currentUser?.creature {
                         userViewModel.deleteUserCreature(modelContext: modelContext, creature: creature)
@@ -81,18 +81,18 @@ struct AuthenticatedView: View {
                     .resizable()
                     .foregroundColor(Color.purple)
                     .frame(width: 120, height: 120)
-                
+
                 Text("Welcome to \nCreatures of Habit")
                     .font(.largeTitle)
                     .fontWeight(.medium)
                     .multilineTextAlignment(.center)
                     .padding()
-                
+
                 Text("Build healthy habits and watch your creature grow!")
                     .multilineTextAlignment(.center)
                     .font(.title3)
                     .padding()
-                
+
                 NavigationLink(destination: SelectCreatureView(userViewModel: userViewModel)) {
                     Text("Start your journey")
                         .padding()
@@ -100,7 +100,7 @@ struct AuthenticatedView: View {
                         .foregroundColor(.white)
                         .cornerRadius(30)
                 }
-                
+
                 NavigationLink(destination: AboutView()) {
                     Text("Learn More")
                         .padding()
@@ -108,7 +108,7 @@ struct AuthenticatedView: View {
                         .foregroundColor(.white)
                         .cornerRadius(30)
                 }
-                
+
                 Button(action: {
                     userViewModel.logout(modelContext: modelContext)
                 }) {
