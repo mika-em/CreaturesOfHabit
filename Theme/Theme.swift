@@ -59,7 +59,7 @@ struct Theme {
 
     struct Buttons {
         let buttonHeight: CGFloat = 44
-        let cornerRadius: CGFloat = 8
+        let cornerRadius: CGFloat = 20
     }
 
     let colors: Colors = Colors()
