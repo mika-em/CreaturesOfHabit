@@ -14,6 +14,7 @@ struct CreatureStatsView: View {
     @Environment(\.modelContext) private var modelContext
     @ObservedObject var viewModel: CreatureStatsViewModel
 
+
     private let placeholderCreature = CreaturePlaceholder(
         type: "Slime",
         name: "Slimey",
@@ -24,11 +25,13 @@ struct CreatureStatsView: View {
         typeStateImage: "slime_baby"
     )
 
+
     private let placeholderHabits = [
         HabitPlaceholder(icon: "drop.fill", name: "Drink water", reward: 5, isComplete: true),
         HabitPlaceholder(icon: "toothbrush.fill", name: "Brush teeth", reward: 5, isComplete: false),
         HabitPlaceholder(icon: "face.smiling", name: "Wash my face", reward: 5, isComplete: true),
     ]
+
 
     var body: some View {
         ScrollView {
@@ -51,6 +54,7 @@ struct CreatureStatsView: View {
         //            Utils.replaceRootView(with: self)
         //        }
     }
+
 
     private func completeHabitToggle(for log: HabitLog) {
         if log.unitsCompleted < log.unitsTotal {
