@@ -13,30 +13,45 @@ struct SelectHabitsView: View {
     @Query(FetchDescriptor<User>()) private var users: [User]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    @State private var selectedHabitID: UUID? = nil  // Track the selected habit
-//    @State var generatedHabitIndexArray: [Int]
+    @State private var selectedHabitID: UUID? = nil
+    @State private var selectedNumber: Double = 5
+    @State private var numberValue: String = ""
+    @State private var generatedHabits: [Habit] = []
     
     var body: some View {
         VStack(spacing: 20) {
             ScrollView{
                 Spacer()
+                Text("Enter number of units")
+                    .font(.headline)
+                    .padding()
+
+                TextField("Enter number of units", text: $numberValue)
+                    .keyboardType(.numberPad)
+                    .padding()
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .onChange(of: numberValue) {
+                        if let value = Double(numberValue) {
+                            selectedNumber = value
+                        }
+                    }
+                
                 Text("Pick a Habit")
                     .font(.title)
                     .fontWeight(.bold)
                     .padding(.top)
-                ForEach(0..<3) { _ in
-                    var generatedHabit = generateRandomHabit()
+                ForEach(generatedHabits) { habit in
                     Button(action: {
-                        selectedHabitID = generatedHabit.id  // Update the selected habit
-                        addHabitToGoals(generatedHabit)      // Add the habit to goals
+                        selectedHabitID = habit.id  // Update the selected habit
+                        addHabitToGoals(habit)      // Add the habit to goals
                         dismiss()                  // Navigate back to MainTabView
                     }) {
-                        Text(generatedHabit.name)
+                        Text(habit.name)
                             .font(.body)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(selectedHabitID == generatedHabit.id ? Color.purple : Color(.systemGray5))
-                            .foregroundColor(selectedHabitID == generatedHabit.id ? .white : .primary)
+                            .background(selectedHabitID == habit.id ? Color.purple : Color(.systemGray5))
+                            .foregroundColor(selectedHabitID == habit.id ? .white : .primary)
                             .cornerRadius(10)
                     }
                 }
@@ -47,7 +62,9 @@ struct SelectHabitsView: View {
                 print("Habits are empty, Reseeding...")
                 DataSeeder.seedHabits(modelContext: modelContext)
                 print("Populated Habits. Seeding Complete!")
-                
+            }
+            for _ in 0..<3 {
+                generatedHabits.append(generateRandomHabit())
             }
         }
         .padding()
@@ -63,7 +80,7 @@ struct SelectHabitsView: View {
         
         let newLog = HabitLog(
             id: UUID(),
-            unitsTotal: habit.units,
+            unitsTotal: selectedNumber,
             unitsCompleted: 0,
             isComplete: false,
             date: Date(),
@@ -83,11 +100,10 @@ struct SelectHabitsView: View {
     
     private func generateRandomHabit() -> Habit {
         let randomInt = Int.random(in: 0..<habits.count)
-//        generatedHabitIndexArray.append(randomInt)
         return habits[randomInt]
     }
 }
-//
+
 //#Preview {
 //    SelectHabitsView()
 //}
