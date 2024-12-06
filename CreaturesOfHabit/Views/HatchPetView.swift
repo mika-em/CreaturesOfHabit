@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HatchPetView: View {
     @State private var isHatched = false
-    @EnvironmentObject var userViewModel: UserViewModel // Access the environment object
+    @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var navigationManager: NavigationManager
 
     var body: some View {

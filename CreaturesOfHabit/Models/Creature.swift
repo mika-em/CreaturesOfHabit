@@ -56,7 +56,7 @@ class Creature {
         }
     }
 
-    private func expUntilNextLevel() -> Double {
+    func expUntilNextLevel() -> Double {
         // Each level 1000 points required
         // Level 1 -> 0 (base level), Level 2 -> 1000, Level 3 -> 2000
         Double(level) * Creature.xpPerLevel

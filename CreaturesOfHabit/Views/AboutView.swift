@@ -11,43 +11,64 @@ import SwiftUI
 let teamMembers = ["Alfrey", "Ben", "Cheryl", "Conrad", "Mika"]
 
 struct AboutView: View {
+    @Environment(\.theme) private var theme
+
     var body: some View {
-        VStack {
-            Spacer()
-            VStack(spacing: 20) {
-                Text("About the App")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.top)
+        ZStack {
+      
+            LinearGradient(
+                gradient: theme.gradients.defaultGradient,
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-                Text("Creatures of Comfort helps you build healthy habits by caring for a pet. Build your habits and help your pet thrive!")
-                    .font(.body)
-                    .padding(.horizontal)
-                    .multilineTextAlignment(.center)
+            VStack {
+                Spacer()
 
-                NavigationLink(destination: HatchPetView()) {
-                    Text("Start your journey!")
-                        .padding()
-                        .background(Color.purple)
-                        .foregroundColor(.white)
-                        .cornerRadius(30)
-                        .fontWeight(.bold)
+                VStack(spacing: 20) {
+                    // Title
+                    Text("About the App")
+                        .font(Font(theme.fonts.headerFont)) // Use header font from theme
+                        .foregroundColor(Color(theme.colors.primaryText)) // Use theme color
+                        .padding(.top)
 
-                }.padding(.top, 20)
+                    // Description
+                    Text("Creatures of Comfort helps you build healthy habits by caring for a pet. Build your habits and help your pet thrive!")
+                        .font(Font(theme.fonts.bodyFont)) // Use body font from theme
+                        .foregroundColor(Color(theme.colors.secondaryText)) // Use secondary text color
+                        .padding(.horizontal)
+                        .multilineTextAlignment(.center)
+
+                    // Start Journey Button
+                    NavigationLink(destination: HatchPetView()) {
+                        Text("Start your journey!")
+                            .font(Font(theme.fonts.buttonFont)) // Use button font from theme
+                    }
+                    .buttonStyle(ThemedButtonStyle(
+                        backgroundColor: Color(theme.colors.primaryButtonBackground) // Primary button background
+                    ))
+                    .padding(.top, 20)
+                }
+
+                Spacer()
+
+                // Credits Button
+                NavigationLink(destination: CreditsView()) {
+                    Text("Credits")
+                        .font(Font(theme.fonts.bodyFont))
+                        .foregroundColor(Color(theme.colors.tertiaryButtonBackground))
+                        .bold()
+                }
+                .padding(.bottom, 30)
             }
-            Spacer()
-            NavigationLink(destination: CreditsView()) {
-                Text("Credits")
-                    .foregroundColor(.black)
-                    .fontWeight(.semibold)
-
-            }.padding(.bottom, 30)
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .center)
         }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .center)
     }
 }
 
 #Preview {
     AboutView()
+        .environment(\.theme, ThemeManager.shared) // Inject the theme environment for preview
 }

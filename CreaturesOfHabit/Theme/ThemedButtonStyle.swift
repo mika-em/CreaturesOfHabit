@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ThemedButtonStyle: ButtonStyle {
     @Environment(\.theme) private var theme
+    var backgroundColor: Color
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -17,12 +18,12 @@ struct ThemedButtonStyle: ButtonStyle {
             .padding(.horizontal, 20)
             .background(
                 configuration.isPressed
-                    ? Color(theme.colors.primaryButtonBackground).opacity(0.8)
-                    : Color(theme.colors.primaryButtonBackground)
+                    ? backgroundColor.opacity(0.8)
+                    : backgroundColor
             )
-            .foregroundColor(Color(theme.colors.primaryButtonForeground))
-            .cornerRadius(theme.buttons.cornerRadius)
-            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
-            .animation(.easeInOut, value: configuration.isPressed)
+            .foregroundColor(Color(theme.colors.primaryButtonForeground)) // Text color
+            .cornerRadius(theme.buttons.cornerRadius) // Rounded corners
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0) // Press animation
+            .animation(.easeInOut(duration: 0.2), value: configuration.isPressed) // Smooth animation
     }
 }

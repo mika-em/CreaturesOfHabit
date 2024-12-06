@@ -12,44 +12,60 @@ struct RegisterView: View {
     @Environment(\.modelContext) private var modelContext
     @ObservedObject var userViewModel: UserViewModel
     @StateObject private var registerViewModel = RegisterViewViewModel()
+    @Environment(\.theme) private var theme
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Register")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+        ZStack {
+            LinearGradient(
+                gradient: theme.gradients.alternateGradient,
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-            TextField("Username", text: $registerViewModel.username)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocapitalization(.none)
+            VStack {
+                Spacer()
+                VStack(spacing: 30) {
+                    Text("Register")
+                        .font(Font(theme.fonts.headerFont))
+                        .foregroundColor(Color(theme.colors.primaryText))
+                    VStack(spacing: 20) {
+                        TextField("Username", text: $registerViewModel.username)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .autocapitalization(.none)
+                            .frame(maxWidth: 300)
 
-            SecureField("Password", text: $registerViewModel.password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .textContentType(.newPassword) // Prevent autofill suggestions
-                .autocapitalization(.none) // Disable capitalization
+                        SecureField("Password", text: $registerViewModel.password)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .textContentType(.newPassword) // Prevent autofill suggestions
+                            .autocapitalization(.none) // Disable capitalization
+                            .frame(maxWidth: 300)
 
-            SecureField("Confirm Password", text: $registerViewModel.confirmPassword)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .textContentType(.newPassword) // Prevent autofill suggestions
-                .autocapitalization(.none) // Disable capitalization
+                        SecureField("Confirm Password", text: $registerViewModel.confirmPassword)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .textContentType(.newPassword) // Prevent autofill suggestions
+                            .autocapitalization(.none)
+                            .frame(maxWidth: 300) // Disable capitalization
 
-            if registerViewModel.showError {
-                Text(registerViewModel.errorMessage)
-                    .foregroundColor(.red)
+                        if registerViewModel.showError {
+                            Text(registerViewModel.errorMessage)
+                                .foregroundColor(.red)
+                                .font(.caption)
+                                .padding(.top, 5)
+                        }
+
+                        Button(action: {
+                            registerViewModel.registerUser(userViewModel: userViewModel, modelContext: modelContext)
+                        }) {
+                            Text("Register")
+                        }
+                        .buttonStyle(ThemedButtonStyle( backgroundColor: Color(theme.colors.secondaryButtonBackground)))
+                            .frame(maxWidth: 200)
+                    }
+                }
+                Spacer()
             }
-
-            Button(action: {
-                registerViewModel.registerUser(userViewModel: userViewModel, modelContext: modelContext)
-            }) {
-                Text("Register")
-                    .padding()
-                    .background(Color.purple)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-
-            Spacer()
+            .padding(.horizontal)
         }
-        .padding()
     }
 }
