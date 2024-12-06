@@ -36,9 +36,7 @@ struct HabitLogDetailsView: View {
         .padding()
     }
 }
-//
-// struct HabitLogDetailsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HabitLogDetailsView(habitLog: PreviewData.mockHabitLog)
-//    }
-// }
+
+#Preview {
+    HabitLogDetailsView(habitLog: PreviewData.mockHabitLog)
+}

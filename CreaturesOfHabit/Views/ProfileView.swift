@@ -61,7 +61,10 @@ struct ProfileView: View {
     }
 }
 
-//#Preview {
-//    ProfileView().environmentObject(UserViewModel())
-//
-//}
+#Preview {
+    let mockViewModel = UserViewModel()
+    mockViewModel.currentUser = PreviewData.mockUser
+
+    return ProfileView()
+        .environmentObject(mockViewModel)
+}

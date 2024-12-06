@@ -53,6 +53,11 @@ enum PreviewData {
         habit: mockHabit
     )
     
+    static let mockHabits: [Habit] = [
+        Habit(name: "Drink Water", units: 10, unitsLower: 5, unitsUpper: 15, ExpRate: 1.2),
+        Habit(name: "Read a Book", units: 3, unitsLower: 2, unitsUpper: 5, ExpRate: 2.0),
+        Habit(name: "Morning Walk", units: 7, unitsLower: 5, unitsUpper: 10, ExpRate: 1.8),
+    ]
 }
 
 

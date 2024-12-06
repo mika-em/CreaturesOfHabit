@@ -108,6 +108,7 @@ struct SelectHabitsView: View {
     }
 }
 
-//#Preview {
-//    SelectHabitsView()
-//}
+#Preview {
+    SelectHabitsView()
+        .environment(\.modelContext, try! ModelContext(ModelContainer(for: Habit.self, User.self, HabitLog.self)))
+}
