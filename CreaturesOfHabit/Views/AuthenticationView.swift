@@ -26,5 +26,5 @@ struct AuthenticationView: View {
 }
 
 #Preview {
-    AuthenticationView()
+    AuthenticationView().environmentObject(UserViewModel())
 }
