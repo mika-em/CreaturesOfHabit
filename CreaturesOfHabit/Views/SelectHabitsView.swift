@@ -8,39 +8,47 @@
 import Foundation
 import SwiftData
 import SwiftUI
-
 struct SelectHabitsView: View {
     @Query(FetchDescriptor<Habit>()) private var habits: [Habit]
     @Query(FetchDescriptor<User>()) private var users: [User]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @State private var selectedHabitID: UUID? = nil  // Track the selected habit
+//    @State var generatedHabitIndexArray: [Int]
     
     var body: some View {
         VStack(spacing: 20) {
-            Spacer()
-            Text("Pick a Habit")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding(.top)
-            
-            ForEach(habits, id: \.self) { habit in
-                Button(action: {
-                    selectedHabitID = habit.id  // Update the selected habit
-                    addHabitToGoals(habit)      // Add the habit to goals
-                    dismiss()                  // Navigate back to MainTabView
-                }) {
-                    Text(habit.name)
-                        .font(.body)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(selectedHabitID == habit.id ? Color.purple : Color(.systemGray5))
-                        .foregroundColor(selectedHabitID == habit.id ? .white : .primary)
-                        .cornerRadius(10)
+            ScrollView{
+                Spacer()
+                Text("Pick a Habit")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.top)
+                ForEach(0..<3) { _ in
+                    var generatedHabit = generateRandomHabit()
+                    Button(action: {
+                        selectedHabitID = generatedHabit.id  // Update the selected habit
+                        addHabitToGoals(generatedHabit)      // Add the habit to goals
+                        dismiss()                  // Navigate back to MainTabView
+                    }) {
+                        Text(generatedHabit.name)
+                            .font(.body)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(selectedHabitID == generatedHabit.id ? Color.purple : Color(.systemGray5))
+                            .foregroundColor(selectedHabitID == generatedHabit.id ? .white : .primary)
+                            .cornerRadius(10)
+                    }
                 }
             }
-            
             Spacer()
+        }.onAppear{
+            if habits.isEmpty{
+                print("Habits are empty, Reseeding...")
+                DataSeeder.seedHabits(modelContext: modelContext)
+                print("Populated Habits. Seeding Complete!")
+                
+            }
         }
         .padding()
     }
@@ -72,8 +80,14 @@ struct SelectHabitsView: View {
             $0.user.id == user.id
         }) ?? []
     }
+    
+    private func generateRandomHabit() -> Habit {
+        let randomInt = Int.random(in: 0..<habits.count)
+//        generatedHabitIndexArray.append(randomInt)
+        return habits[randomInt]
+    }
 }
-
-#Preview {
-    SelectHabitsView()
-}
+//
+//#Preview {
+//    SelectHabitsView()
+//}

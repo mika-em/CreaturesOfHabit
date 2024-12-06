@@ -38,12 +38,13 @@ struct CreatureStatsView: View {
                 } else {
                     CreatureHeaderPlaceholder(creature: placeholderCreature)
                 }
-                let todayHabits = habitLogs.filter { $0.isSameDateAsToday() }
-                if todayHabits.isEmpty {
-                    HabitListPlaceholder(habits: placeholderHabits)
-                } else {
-                    HabitList(habitLog: todayHabits, onToggle: completeHabitToggle)
-                }
+//                let todayHabits = habitLogs.filter { $0.isSameDateAsToday() }
+//                if todayHabits.isEmpty {
+//                    HabitListPlaceholder(habits: placeholderHabits)
+//                } else {
+//                    HabitList(habitLog: todayHabits, onToggle: completeHabitToggle)
+//                }
+                HabitList(habitLog: habitLogs, onToggle: completeHabitToggle, clearHabits: clearHabitLogData)
             }
         }
 //        .onAppear {
@@ -59,6 +60,20 @@ struct CreatureStatsView: View {
             try modelContext.save()
         } catch {
             print("Failed to save habit completion: \(error.localizedDescription)")
+        }
+    }
+    
+    private func clearHabitLogData() {
+        // Loop through all habit logs and delete them
+        for habitLog in habitLogs {
+            modelContext.delete(habitLog)
+        }
+        
+        // Save the changes to persist the deletion
+        do {
+            try modelContext.save()
+        } catch {
+            print("Error clearing habit log data: \(error.localizedDescription)")
         }
     }
 }
@@ -116,17 +131,35 @@ struct CreatureHeaderPlaceholder: View {
 struct HabitList: View {
     let habitLog: [HabitLog]
     let onToggle: (HabitLog) -> Void
-    
+    let clearHabits: () -> Void
+
     var body: some View {
+        let openHabitSlot: Bool = habitLog.count < 3
+
         VStack(alignment: .leading, spacing: 10) {
             Text("Habits for today")
                 .font(.headline)
                 .padding(.leading)
             
             ScrollView {
+                Button("Clear Habit Log Data") {
+                    clearHabits()
+                }
                 VStack(spacing: 10) {
                     ForEach(habitLog) { habit in
                         HabitRow(habitLog: habit, onToggle: onToggle)
+                    }
+                    if openHabitSlot {
+                        NavigationView {
+                            NavigationLink(destination: SelectHabitsView()) {
+                                HStack {
+                                    Image(systemName: "plus.circle")
+                                    Text("Add a Habit")
+                                        .font(.headline)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                            }
+                        }
                     }
                 }
                 .padding()
